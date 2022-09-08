@@ -58,20 +58,18 @@ class UserController extends Controller
         try {
             $validate_request = StoreUserRequest::ApiValidation($request);
             if ($validate_request->fails()) {
-                $response = GeneralResponseService::generateResponse([], CustomStatusCodes::getValidationCode(), $validate_request->errors()->first(), CustomStatusCodes::getBadRequest());
+                $response = GeneralResponseService::ValidationResponse($validate_request->errors()->first());
             } else {
 
                 $response = $this->user->register($validate_request->validated());
-
-                return GeneralResponseService::successResponseCreated($response);
             }
-            return $response;
+            return GeneralResponseService::responseGenerator($response['body'], $response['code'], $response['message'], $response['http_code'], $response['status']);
         } catch (\Exception $ex) {
             return GeneralResponseService::generateResponse([], CustomStatusCodes::getValidationCode(), $ex->getMessage(), CustomStatusCodes::getBadRequest());
         }
     }
 
-        /**
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -82,18 +80,13 @@ class UserController extends Controller
         try {
             $validate_request = LoginUserRequest::ApiValidation($request);
             if ($validate_request->fails()) {
-                $response = GeneralResponseService::generateResponse([], CustomStatusCodes::getValidationCode(), $validate_request->errors()->first(), CustomStatusCodes::getBadRequest());
+                $response = GeneralResponseService::ValidationResponse($validate_request->errors()->first());
             } else {
-
                 $response = $this->user->login($validate_request->validated());
-
-                return GeneralResponseService::responseGenerator($response['body'],$response['code'],$response['message'],$response['http_code'],$response['status']);
             }
-            return $response;
+            return GeneralResponseService::responseGenerator($response['body'], $response['code'], $response['message'], $response['http_code'], $response['status']);
         } catch (\Exception $ex) {
             return GeneralResponseService::generateResponse([], CustomStatusCodes::getValidationCode(), $ex->getMessage(), CustomStatusCodes::getBadRequest());
         }
     }
-
-   
 }

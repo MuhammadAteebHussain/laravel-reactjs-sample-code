@@ -2,11 +2,15 @@
 
 namespace App\Http\Services\Application;
 
+use App\Components\CustomStatusCodes;
 use App\Contracts\AbstractFilms;
 use App\Http\Services\Application\Contracts\ApplicationServiceInterface;
+use App\Http\Services\General\GeneralResponseService;
 
 class GetSlugFilmsApplicationService extends AbstractFilms implements ApplicationServiceInterface
 {
+    const FILM_FAILED = 'Invalid User Name or Password';
+    const FILM_FETCH_SUCCESSFULLY = 'Fetch Successfully';
 
 
     public function execute($request)
@@ -17,9 +21,15 @@ class GetSlugFilmsApplicationService extends AbstractFilms implements Applicatio
             $slug = $request;
             $film = $this->getBySlug($slug);
             $data = $this->singlefilmResponseGenerator($film);
-            return $data;
+
+            $result['code'] = CustomStatusCodes::FILM_SUCCESS;
+            $result['message'] = self::FILM_FETCH_SUCCESSFULLY;
+            $result['body'] = $data;
+            $result['http_code'] = CustomStatusCodes::HTTP_SUCCESS_CODE;
+            $result['status'] = CustomStatusCodes::RESPONSE_SUCCESS_TRUE;
+            return $result;
         } catch (\Exception $ex) {
-            return $ex->getMessage();
+            return GeneralResponseService::GenerateMessageByException($ex);
         }
     }
 }

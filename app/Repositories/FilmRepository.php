@@ -30,7 +30,7 @@ class FilmRepository implements FilmRepositoryInterface
         StoreFilmsApplicationService $store_film_service,
         AssignGenreApplicationService $assign_genre_film_application_service,
         StoreCommentsApplicationService $store_comment_service
-        
+
     ) {
         $this->all_films_application_service = $all_films_application_service;
         $this->slug_film_application_service = $slug_film_application_service;
@@ -45,26 +45,9 @@ class FilmRepository implements FilmRepositoryInterface
     public function getAllFilms()
     {
         try {
-
-            $content = $this->all_films_application_service->execute();
-
-
-            return  $this->general_response_service->generateResponse(
-                $content,
-                CustomStatusCodes::getSuccessCode(),
-                CustomStatusCodes::getGenralSuccessMessage(),
-                CustomStatusCodes::getHttpSuccessCode(),
-
-            );
+            return  $this->all_films_application_service->execute();
         } catch (\Exception $ex) {
-
-            return  $this->general_response_service->generateResponse(
-                "",
-                CustomStatusCodes::getFailureCode(),
-                $ex->getMessage() . '-' . $ex->getLine(),
-                CustomStatusCodes::getHttpInernalServerCode()
-
-            );
+            return GeneralResponseService::GenerateMessageByException($ex);
         }
     }
 
@@ -73,40 +56,37 @@ class FilmRepository implements FilmRepositoryInterface
     {
 
         try {
-            $content = $this->slug_film_application_service->execute($slug);
-
-
-            return  $this->general_response_service->generateResponse(
-                $content,
-                CustomStatusCodes::getSuccessCode(),
-                CustomStatusCodes::getGenralSuccessMessage(),
-                CustomStatusCodes::getHttpSuccessCode(),
-
-            );
+            return  $this->slug_film_application_service->execute($slug);
         } catch (\Exception $ex) {
-            return  $this->general_response_service->generateResponse(
-                "",
-                CustomStatusCodes::getFailureCode(),
-                $ex->getMessage() . '-' . $ex->getLine(),
-                CustomStatusCodes::getHttpInernalServerCode()
-
-            );
+            return GeneralResponseService::GenerateMessageByException($ex);
         }
     }
 
     public function storeFilm(object $validated_requet)
     {
-        return $this->store_film_service->execute($validated_requet);
+        try {
+            return $this->store_film_service->execute($validated_requet);
+        } catch (\Exception $ex) {
+            return GeneralResponseService::GenerateMessageByException($ex);
+        }
     }
 
 
     public function assignGeneriesToFilm(object $validated_requet)
     {
-        return $this->assign_genre_film_application_service->execute($validated_requet);
+        try {
+            return $this->assign_genre_film_application_service->execute($validated_requet);
+        } catch (\Exception $ex) {
+            return GeneralResponseService::GenerateMessageByException($ex);
+        }
     }
 
     public function addCommentsToFilm(object $validated_requet)
     {
-        return $this->store_comment_service->execute($validated_requet);
+        try {
+            return $this->store_comment_service->execute($validated_requet);
+        } catch (\Exception $ex) {
+            return GeneralResponseService::GenerateMessageByException($ex);
+        }
     }
 }

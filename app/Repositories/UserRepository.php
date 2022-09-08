@@ -28,25 +28,19 @@ class UserRepository implements UserRepositoryInterface
     public function login(array $validated_request)
     {
         try {
-
-            $content = $this->user_login_application_service->execute($validated_request);
-
-            return $content;
+            return $this->user_login_application_service->execute($validated_request);
         } catch (\Exception $ex) {
-            throw $ex;
+            return GeneralResponseService::GenerateMessageByException($ex);
         }
     }
 
 
     public function register(array $validated_request)
     {
-
         try {
-            $content = $this->user_register_application_service->execute($validated_request);
-
-            return $content;
+            return $this->user_register_application_service->execute($validated_request);
         } catch (\Exception $ex) {
-            throw $ex;
+            return GeneralResponseService::GenerateMessageByException($ex);
         }
     }
 }

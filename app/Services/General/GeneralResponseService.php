@@ -55,6 +55,27 @@ class GeneralResponseService implements GeneralResponseServiceInterface
         return response($data,$http_code);
     }
 
+    public static function createExceptionResponse($ex)
+    {
+         
+         return self::responseGenerator([],CustomStatusCodes::GENERAL_VALIDATION_CODE,self::GenerateMessageByException($ex),CustomStatusCodes::HTTP_INTERNAL_SERVER_ERROR_CODE,false);
+    }
+
+    public static function GenerateMessageByException(object $ex)
+    {
+        return $ex->getMessage().'-'.$ex->getFile().'-'.$ex->getLine();
+    }
+    
+    public function ValidationResponse($message)
+    {
+        $response['code'] = CustomStatusCodes::GENERAL_VALIDATION_CODE;
+        $response['message'] = $message;
+        $response['body'] = [];
+        $response['http_code'] = CustomStatusCodes::HTTP_BAD_REQUEST;
+        $response['status'] = CustomStatusCodes::RESPONSE_SUCCESS_FALSE;
+        return $response;
+    }
+
     
 
 }
