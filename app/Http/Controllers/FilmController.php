@@ -39,7 +39,12 @@ class FilmController extends Controller
      */
     public function getAllFilms()
     {
-        return $this->repository->getAllFilms();
+        try {
+            $response = $this->repository->getAllFilms();
+            return GeneralResponseService::responseGenerator($response['body'], $response['code'], $response['message'], $response['http_code'], $response['status']);
+        } catch (\Exception $ex) {
+            return  GeneralResponseService::createExceptionResponse($ex);
+        }
     }
 
 
@@ -64,16 +69,13 @@ class FilmController extends Controller
         try {
             $validate_request = StoreFilmRequest::ApiValidation($request);
             if ($validate_request->fails()) {
-                
-                return  GeneralResponseService::responseGenerator([], CustomStatusCodes::GENERAL_VALIDATION_CODE, $validate_request->errors()->first(),  CustomStatusCodes::HTTP_BAD_REQUEST,CustomStatusCodes::RESPONSE_SUCCESS_FALSE);
+                $response = GeneralResponseService::ValidationResponse($validate_request->errors()->first());
             } else {
                 $response = $this->repository->storeFilm($request);
-                $response = GeneralResponseService::responseGenerator($response['body'], $response['code'], $response['message'], $response['http_code'], $response['status']);
             }
-            return $response;
+            return $response = GeneralResponseService::responseGenerator($response['body'], $response['code'], $response['message'], $response['http_code'], $response['status']);
         } catch (\Exception $ex) {
-
-            return  GeneralResponseService::responseGenerator([], CustomStatusCodes::GENERAL_VALIDATION_CODE, $ex->getMessage(),  CustomStatusCodes::HTTP_BAD_REQUEST,CustomStatusCodes::RESPONSE_SUCCESS_FALSE);
+            return  GeneralResponseService::createExceptionResponse($ex);
         }
     }
 
@@ -97,7 +99,13 @@ class FilmController extends Controller
      */
     public function showBySlug($slug)
     {
-        return $this->repository->getFilmsBySlugName($slug);
+
+        try {
+            $response = $this->repository->getFilmsBySlugName($slug);
+            return GeneralResponseService::responseGenerator($response['body'], $response['code'], $response['message'], $response['http_code'], $response['status']);
+        } catch (\Exception $ex) {
+            return  GeneralResponseService::createExceptionResponse($ex);
+        }
     }
 
     /**

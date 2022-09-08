@@ -18,7 +18,6 @@ class UserLoginApiTest extends TestCase
             'password' => 'Ateeb@12345',
         );
         $response = $this->post('api/user/login', $data);
-        // dd($response->getContent());
     }
 
     public function test_login_email_required()

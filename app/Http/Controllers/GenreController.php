@@ -57,14 +57,13 @@ class GenreController extends Controller
         try {
             $validate_request = StoreGenreRequest::ApiValidation($request);
             if ($validate_request->fails()) {
-                return  GeneralResponseService::responseGenerator([], CustomStatusCodes::GENERAL_VALIDATION_CODE, $validate_request->errors()->first(),  CustomStatusCodes::HTTP_BAD_REQUEST,CustomStatusCodes::RESPONSE_SUCCESS_FALSE);
+                $response=GeneralResponseService::ValidationResponse($validate_request->errors()->first());
             } else {
                 $response = $this->repository->assignGeneriesToFilm($request);
-                $response = GeneralResponseService::responseGenerator($response['body'], $response['code'], $response['message'], $response['http_code'], $response['status']);
             }
-            return $response;
+            return GeneralResponseService::responseGenerator($response['body'], $response['code'], $response['message'], $response['http_code'], $response['status']);
         } catch (\Exception $ex) {
-            return  GeneralResponseService::responseGenerator([], CustomStatusCodes::GENERAL_VALIDATION_CODE, $ex->getMessage(),  CustomStatusCodes::HTTP_BAD_REQUEST,CustomStatusCodes::RESPONSE_SUCCESS_FALSE);
+            return  GeneralResponseService::createExceptionResponse($ex);
         }
     }
 
@@ -77,18 +76,6 @@ class GenreController extends Controller
     public function show($id)
     {
         //
-    }
-
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $slug
-     * @return \Illuminate\Http\Response
-     */
-    public function showBySlug($slug)
-    {
-        return $this->repository->getFilmsBySlugName($slug);
     }
 
     /**

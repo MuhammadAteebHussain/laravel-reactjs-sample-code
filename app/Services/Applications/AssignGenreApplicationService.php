@@ -6,6 +6,7 @@ use App\Contracts\AbstractGenres;
 use App\Http\Services\Application\Contracts\ApplicationServiceInterface;
 use App\Http\Services\Domain\AssignFilmGenreDomainService;
 use App\Components\CustomStatusCodes;
+use App\Http\Services\General\GeneralResponseService;
 
 class AssignGenreApplicationService  implements ApplicationServiceInterface
 {
@@ -46,7 +47,7 @@ class AssignGenreApplicationService  implements ApplicationServiceInterface
             }
             return $result;
         } catch (\Exception $ex) {
-            return $ex->getMessage();
+            return GeneralResponseService::GenerateMessageByException($ex);
         }
     }
 }

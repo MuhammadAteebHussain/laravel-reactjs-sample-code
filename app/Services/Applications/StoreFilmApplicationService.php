@@ -6,6 +6,7 @@ use App\Contracts\AbstractFilms;
 use App\Http\Services\Application\Contracts\ApplicationServiceInterface;
 use App\Http\Services\Domain\StoreFilmDomainService;
 use App\Components\CustomStatusCodes;
+use App\Http\Services\General\GeneralResponseService;
 
 class StoreFilmsApplicationService  implements ApplicationServiceInterface
 {
@@ -61,7 +62,8 @@ class StoreFilmsApplicationService  implements ApplicationServiceInterface
             }
             return $result;
         } catch (\Exception $ex) {
-            return $ex->getMessage();
+            return GeneralResponseService::GenerateMessageByException($ex);
+
         }
     }
 }

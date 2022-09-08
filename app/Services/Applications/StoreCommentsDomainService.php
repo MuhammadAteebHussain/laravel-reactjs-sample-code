@@ -4,6 +4,7 @@ namespace App\Http\Services\Domain;
 
 use App\Contracts\AbstractComments;
 use App\Http\Services\Domain\Contracts\DomainServiceInterface;
+use App\Http\Services\General\GeneralResponseService;
 
 class StoreCommentsDomainService extends AbstractComments implements DomainServiceInterface
 {
@@ -13,13 +14,15 @@ class StoreCommentsDomainService extends AbstractComments implements DomainServi
     public function execute($request)
     {
 
-
-        $data = $this->storeComment($request);
-
-        if ($data == true) {
-            return $data;
-        } else {
-            return false;
+        try {
+            $data = $this->storeComment($request);
+            if ($data) {
+                return $data;
+            } else {
+                return false;
+            }
+        } catch (\Exception $ex) {
+            return GeneralResponseService::GenerateMessageByException($ex);
         }
     }
 }

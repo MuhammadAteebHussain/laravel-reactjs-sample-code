@@ -11,6 +11,7 @@ use Tests\TestCase;
 class UserApiVadlidationTest extends TestCase
 {
 
+    
     public function test_register_user_api_validation_name_required()
     {
         $data = array(

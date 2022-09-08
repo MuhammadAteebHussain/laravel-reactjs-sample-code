@@ -2,16 +2,17 @@
 
 namespace App\Http\Services\Application;
 
+use App\Components\CustomStatusCodes;
 use App\Http\Services\Domain\UserRegisterDomainService;
 use App\Http\Services\Application\Contracts\ApplicationServiceInterface;
-
-
-
+use App\Http\Services\General\GeneralResponseService;
 
 class UserRegisterApplicationService implements ApplicationServiceInterface
 {
     protected $user_register_service;
 
+    const USER_REGISTER_FAILED_MESSAGE = 'Invalid User Name or Password';
+    const USER_REGISTER_SUCCESSFULLY = 'Login Successfully';
 
     public function __construct(UserRegisterDomainService $user_register_service)
     {
@@ -24,10 +25,17 @@ class UserRegisterApplicationService implements ApplicationServiceInterface
             $data['name'] = $request['name'];
             $data['email'] = $request['email'];
             $data['password'] = bcrypt($request['password']);
-            $result = $this->user_register_service->execute($data);
+            $content = $this->user_register_service->execute($data);
+
+            $result['code'] = CustomStatusCodes::REGISTER_SUCCESS;
+            $result['message'] = self::USER_REGISTER_SUCCESSFULLY;
+            $result['body'] = $content;
+            $result['http_code'] = CustomStatusCodes::HTTP_INSERTED_SUCCESS_CODE;
+            $result['status'] = CustomStatusCodes::RESPONSE_SUCCESS_TRUE;
             return $result;
         } catch (\Exception $ex) {
-            throw $ex;
+
+            return GeneralResponseService::GenerateMessageByException($ex);
         }
     }
 }
