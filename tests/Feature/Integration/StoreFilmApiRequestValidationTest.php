@@ -189,7 +189,6 @@ class StoreFilmApiRequestValidationTest extends TestCase
             'genre_id' => rand(1,4),
         );        
         $response = $this->post('api/film/store', $data);
-        // dd($response->getContent());
         $response->assertStatus(200);
     }
     
