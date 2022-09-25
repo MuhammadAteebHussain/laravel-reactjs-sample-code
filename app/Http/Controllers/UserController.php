@@ -83,7 +83,6 @@ class UserController extends Controller
             } else {
                 $response = $this->user->login($validate_request->validated());
             }
-            var_dump($response );die;
             return GeneralResponseService::responseGenerator($response['body'], $response['code'], $response['message'], $response['http_code'], $response['status']);
         } catch (\Exception $ex) {
             return GeneralResponseService::generateResponse([], CustomStatusCodes::getValidationCode(), $ex->getMessage(), CustomStatusCodes::getBadRequest());

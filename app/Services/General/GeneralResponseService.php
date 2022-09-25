@@ -66,7 +66,7 @@ class GeneralResponseService implements GeneralResponseServiceInterface
         return $ex->getMessage().'-'.$ex->getFile().'-'.$ex->getLine();
     }
     
-    public function ValidationResponse($message)
+    public static function ValidationResponse($message)
     {
         $response['code'] = CustomStatusCodes::GENERAL_VALIDATION_CODE;
         $response['message'] = $message;
