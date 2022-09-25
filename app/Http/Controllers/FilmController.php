@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Components\CustomStatusCodes;
+use App\Contracts\FilmRepositoryInterface;
 use App\Http\Requests\StoreFilmRequest;
 use App\Http\Services\General\GeneralResponseService;
 use Illuminate\Http\Request;
-use App\Repositories\FilmRepository;
 use Illuminate\Support\Facades\Validator;
 
 class FilmController extends Controller
@@ -18,7 +18,7 @@ class FilmController extends Controller
 
 
 
-    public function __construct(FilmRepository $film)
+    public function __construct(FilmRepositoryInterface $film)
     {
         $this->repository = $film;
     }

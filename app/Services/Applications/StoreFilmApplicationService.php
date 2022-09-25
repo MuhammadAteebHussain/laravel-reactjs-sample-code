@@ -6,6 +6,7 @@ use App\Contracts\AbstractFilms;
 use App\Http\Services\Application\Contracts\ApplicationServiceInterface;
 use App\Http\Services\Domain\StoreFilmDomainService;
 use App\Components\CustomStatusCodes;
+use App\Http\Services\Domain\Contracts\DomainServiceInterface;
 use App\Http\Services\General\GeneralResponseService;
 
 class StoreFilmsApplicationService  implements ApplicationServiceInterface
@@ -16,7 +17,7 @@ class StoreFilmsApplicationService  implements ApplicationServiceInterface
     const FILM_ERROR_MESSAGE = 'Something Went Wrong';
 
 
-    public function __construct(StoreFilmDomainService $store_film_service_service)
+    public function __construct(DomainServiceInterface $store_film_service_service)
     {
         $this->store_film_service_service = $store_film_service_service;
     }
