@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Services\Application;
+namespace App\Services\Application;
 
 use App\Contracts\AbstractGenres;
-use App\Http\Services\Application\Contracts\ApplicationServiceInterface;
-use App\Http\Services\Domain\StoreCommentsDomainService;
+use App\Services\Application\Contracts\ApplicationServiceInterface;
+use App\Services\Domain\StoreCommentsDomainService;
 use App\Components\CustomStatusCodes;
-use App\Http\Services\General\GeneralResponseService;
+use App\Services\General\GeneralResponseService;
 
 class StoreCommentsApplicationService  implements ApplicationServiceInterface
 {

@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Components\CustomStatusCodes;
-use App\Http\Requests\StoreFilmRequest;
 use App\Http\Requests\StoreGenreRequest;
-use App\Http\Services\General\GeneralResponseService;
+use App\Services\General\GeneralResponseService;
 use Illuminate\Http\Request;
 use App\Repositories\FilmRepository;
-use Illuminate\Support\Facades\Validator;
 
 class GenreController extends Controller
 {

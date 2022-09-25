@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Services\Application;
+namespace App\Services\Application;
 
 use App\Components\CustomStatusCodes;
-use App\Http\Services\Domain\UserRegisterDomainService;
-use App\Http\Services\Application\Contracts\ApplicationServiceInterface;
-use App\Http\Services\General\GeneralResponseService;
+use App\Services\Domain\UserRegisterDomainService;
+use App\Services\Application\Contracts\ApplicationServiceInterface;
+use App\Services\General\GeneralResponseService;
 
 class UserRegisterApplicationService implements ApplicationServiceInterface
 {

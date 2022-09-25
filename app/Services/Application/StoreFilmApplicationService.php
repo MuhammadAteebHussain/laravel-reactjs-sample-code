@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Services\Application;
+namespace App\Services\Application;
 
 use App\Contracts\AbstractFilms;
-use App\Http\Services\Application\Contracts\ApplicationServiceInterface;
-use App\Http\Services\Domain\StoreFilmDomainService;
+use App\Services\Application\Contracts\ApplicationServiceInterface;
+use App\Services\Domain\StoreFilmDomainService;
 use App\Components\CustomStatusCodes;
-use App\Http\Services\Domain\Contracts\DomainServiceInterface;
-use App\Http\Services\General\GeneralResponseService;
+use App\Services\Domain\Contracts\DomainServiceInterface;
+use App\Services\General\GeneralResponseService;
 
-class StoreFilmsApplicationService  implements ApplicationServiceInterface
+class StoreFilmApplicationService  implements ApplicationServiceInterface
 {
     protected $store_film_service_service;
 
@@ -29,7 +29,6 @@ class StoreFilmsApplicationService  implements ApplicationServiceInterface
 
         try {
 
-            // print_r($request->file('photo'));
             $data = $request->all();
 
             $destination_path = '/images/';

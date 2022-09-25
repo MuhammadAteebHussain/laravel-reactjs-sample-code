@@ -4,10 +4,10 @@ namespace App\Providers;
 
 use App\Contracts\FilmRepositoryInterface;
 use App\Http\Controllers\FilmController;
-use App\Http\Services\Application\Contracts\ApplicationServiceInterface;
-use App\Http\Services\Application\StoreFilmsApplicationService;
-use App\Http\Services\Domain\Contracts\DomainServiceInterface;
-use App\Http\Services\Domain\StoreFilmDomainService;
+use App\Services\Application\Contracts\ApplicationServiceInterface;
+use App\Services\Application\StoreFilmApplicationService;
+use App\Services\Domain\Contracts\DomainServiceInterface;
+use App\Services\Domain\StoreFilmDomainService;
 use App\Repositories\FilmRepository;
 use Illuminate\Support\ServiceProvider;
 
@@ -20,13 +20,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->when(StoreFilmsApplicationService::class)
+        $this->app->when(StoreFilmApplicationService::class)
           ->needs(DomainServiceInterface::class)
           ->give(StoreFilmDomainService::class);
+
 
           $this->app->when(FilmController::class)
           ->needs(FilmRepositoryInterface::class)
           ->give(FilmRepository::class);
+         
 
           
     }

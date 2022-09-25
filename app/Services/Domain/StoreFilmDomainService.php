@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Services\Domain;
+namespace App\Services\Domain;
 
 use App\Contracts\AbstractFilms;
-use App\Http\Services\Domain\Contracts\DomainServiceInterface;
+use App\Services\Domain\Contracts\DomainServiceInterface;
 
 class StoreFilmDomainService extends AbstractFilms implements DomainServiceInterface
 {

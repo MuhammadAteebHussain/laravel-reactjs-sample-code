@@ -1,51 +1,141 @@
 version: '3'
 services:
-  
-  #PHP Service
-  app:
+  nginx:
+    container_name: ${NGINX_CONTAINER}
+    image: nginx:${NGINX_VERSION}
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./:/server/http
+    ports:
+      - 9084:80
+      - 9043:443
+    networks:
+      - film-app
+    links:
+      - php
+      - mysql
+      - rabbitmq
+
+  php:
+    container_name: ${PHP_CONTAINER}
     build:
       context: .
-      dockerfile: Dockerfile
-    image: digitalocean.com/php
-    container_name: app
+      dockerfile: docker/php-fpm/Dockerfile
     restart: unless-stopped
-    tty: true
-    environment:
-      SERVICE_NAME: app
-      SERVICE_TAGS: dev
-    working_dir: /var/www/vhost/manage-films/
-    networks:
-      - app-network
-
-  #Nginx Service
-  webserver:
-    image: nginx:alpine
-    container_name: webserver
-    restart: unless-stopped
-    tty: true
+    volumes:
+      - ./:/server/http
+      - ./var/cache/xdebug:/tmp
+      - /home/ateeb/.ssh/:/root/.ssh
     ports:
-      - "80:80"
-      - "443:443"
+      - 9000:9000
     networks:
-      - app-network
+      - film-app
+    links:
+      - rabbitmq
+      - mysql
 
-  #MySQL Service
-  db:
-    image: mysql:5.7.22
-    container_name: db
+ #mysql server container
+  mysql:
+    container_name: ${DB_CONTAINER}
+    image: mysql:${DB_VERSION}
     restart: unless-stopped
-    tty: true
-    ports:
-      - "3306:3307"
+    hostname: ${DB_HOST}
     environment:
-      MYSQL_DATABASE: laravel
-      MYSQL_ROOT_PASSWORD:  ateeb@12345
-      SERVICE_TAGS: dev
-      SERVICE_NAME: mysql
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_ROOT_USER=${DB_ROOT_USER}
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - db-mysql-volume:/var/lib/mysql
+    ports:
+      - 9006:3306
     networks:
-      - app-network
+       film-app:
+        aliases:
+          - mysql
+    expose:
+      - '3306'
+
+  rabbitmq:
+    container_name: ${AMQP_CONTAINER}
+    image: "rabbitmq:3-management"
+    restart: unless-stopped
+    hostname: ${AMQP_HOST}
+    environment:
+      RABBITMQ_ERLANG_COOKIE: ${ERLANG_COOKIE}
+      RABBITMQ_DEFAULT_USER: ${AMQP_USER}
+      RABBITMQ_DEFAULT_PASS: ${AMQP_PASS}
+      RABBITMQ_DEFAULT_VHOST: ${AMQP_VHOST}
+    volumes:
+      - ./docker/rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+      - ./docker/rabbitmq/definitions.json:/etc/rabbitmq/definitions.json
+    ports:
+      - "9072:15672"
+      - "9073:5672"
+    networks:
+      - film-app
+    tty: true
+    command: bash -c "rabbitmq-plugins enable rabbitmq_management; rabbitmq-server;"
+    expose:
+      - '5672'
+      - '15672'
+
+  sonarqube:
+    container_name: ${SONARQUBE_CONTAINER}
+    image: sonarqube:community
+    hostname: ${SONARQUBE_HOST}
+    depends_on:
+      - sonar-db
+    environment:
+      SONAR_JDBC_URL: jdbc:postgresql://db:5432/sonar
+      SONAR_JDBC_USERNAME: ${SONARQUBE_USER}
+      SONAR_JDBC_PASSWORD: ${SONARQUBE_PASSWORD}
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_extensions:/opt/sonarqube/extensions
+      - sonarqube_logs:/opt/sonarqube/logs
+    networks:
+      - film-app
+    ports:
+      - "9004:9004"
+
+  sonar-db:
+    container_name: ${POSTGRES_CONTAINER}
+    image: postgres:12
+    hostname: postgresql
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgresql:/var/lib/postgresql
+      - postgresql_data:/var/lib/postgresql/data
+    ports:
+      - "9005:9005"
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    command: redis-server --appendonly yes
+    ports:
+      - 6379:6379
+    volumes:
+      - ./data:/data
+    restart: always
+    networks:
+      - film-app
 
 #Docker Networks
 networks:
-  app-network:
+  film-app:
+    name: film-app
     driver: bridge
+
+volumes:
+  db-mysql-volume:
+  sonarqube_data:
+  sonarqube_extensions:
+  sonarqube_logs:
+  postgresql:
+  postgresql_data:

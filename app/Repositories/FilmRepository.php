@@ -5,12 +5,12 @@ namespace App\Repositories;
 use App\Components\CustomStatusCodes;
 use App\Contracts\FilmRepositoryInterface;
 use App\Models\Film;
-use App\Http\Services\Application\GetAllFilmsApplicationService;
-use App\Http\Services\Application\GetSlugFilmsApplicationService;
-use App\Http\Services\Application\StoreFilmsApplicationService;
-use App\Http\Services\Application\AssignGenreApplicationService;
-use App\Http\Services\Application\StoreCommentsApplicationService;
-use App\Http\Services\General\GeneralResponseService;
+use App\Services\Application\GetAllFilmsApplicationService;
+use App\Services\Application\GetSlugFilmsApplicationService;
+use App\Services\Application\AssignGenreApplicationService;
+use App\Services\Application\StoreCommentsApplicationService;
+use App\Services\Application\StoreFilmApplicationService;
+use App\Services\General\GeneralResponseService;
 
 
 class FilmRepository implements FilmRepositoryInterface
@@ -27,7 +27,7 @@ class FilmRepository implements FilmRepositoryInterface
         GetAllFilmsApplicationService $all_films_application_service,
         GetSlugFilmsApplicationService $slug_film_application_service,
         GeneralResponseService $general_response_service,
-        StoreFilmsApplicationService $store_film_service,
+        StoreFilmApplicationService $store_film_service,
         AssignGenreApplicationService $assign_genre_film_application_service,
         StoreCommentsApplicationService $store_comment_service
 

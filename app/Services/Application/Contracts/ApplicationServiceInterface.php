@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Services\Application\Contracts;
+namespace App\Services\Application\Contracts;
 
 
 interface ApplicationServiceInterface

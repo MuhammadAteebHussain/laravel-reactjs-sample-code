@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Components\CustomStatusCodes;
 use App\Http\Requests\LoginUserRequest;
-use App\Http\Requests\StoreFilmRequest;
 use App\Http\Requests\StoreUserRequest;
-use App\Http\Services\General\GeneralResponseService;
+use App\Services\General\GeneralResponseService;
 use Illuminate\Http\Request;
 use App\Repositories\FilmRepository;
 use App\Repositories\UserRepository;
@@ -84,6 +83,7 @@ class UserController extends Controller
             } else {
                 $response = $this->user->login($validate_request->validated());
             }
+            var_dump($response );die;
             return GeneralResponseService::responseGenerator($response['body'], $response['code'], $response['message'], $response['http_code'], $response['status']);
         } catch (\Exception $ex) {
             return GeneralResponseService::generateResponse([], CustomStatusCodes::getValidationCode(), $ex->getMessage(), CustomStatusCodes::getBadRequest());

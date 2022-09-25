@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Services\Application;
+namespace App\Services\Application;
 
 use App\Components\CustomStatusCodes;
 use App\Contracts\AbstractUsers;
-use App\Http\Services\Application\Contracts\ApplicationServiceInterface;
-use App\Http\Services\General\GeneralResponseService;
+use App\Services\Application\Contracts\ApplicationServiceInterface;
+use App\Services\General\GeneralResponseService;
 use Exception;
 
 class UserLoginApplicationService extends AbstractUsers implements ApplicationServiceInterface

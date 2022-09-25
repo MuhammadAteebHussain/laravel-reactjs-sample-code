@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Components\CustomStatusCodes;
 use App\Contracts\FilmRepositoryInterface;
 use App\Http\Requests\StoreFilmRequest;
-use App\Http\Services\General\GeneralResponseService;
+use App\Services\General\GeneralResponseService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class FilmController extends Controller
 {
@@ -38,7 +36,7 @@ class FilmController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function getAllFilms()
-    {
+    {   
         try {
             $response = $this->repository->getAllFilms();
             return GeneralResponseService::responseGenerator($response['body'], $response['code'], $response['message'], $response['http_code'], $response['status']);

@@ -4,9 +4,9 @@ namespace App\Repositories;
 
 use App\Components\CustomStatusCodes;
 use App\Contracts\UserRepositoryInterface;
-use App\Http\Services\Application\UserLoginApplicationService;
-use App\Http\Services\Application\UserRegisterApplicationService;
-use App\Http\Services\General\GeneralResponseService;
+use App\Services\Application\UserLoginApplicationService;
+use App\Services\Application\UserRegisterApplicationService;
+use App\Services\General\GeneralResponseService;
 
 
 class UserRepository implements UserRepositoryInterface

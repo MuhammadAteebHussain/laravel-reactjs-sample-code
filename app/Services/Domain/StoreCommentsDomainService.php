@@ -1,15 +1,13 @@
 <?php
 
-namespace App\Http\Services\Domain;
+namespace App\Services\Domain;
 
 use App\Contracts\AbstractComments;
-use App\Http\Services\Domain\Contracts\DomainServiceInterface;
-use App\Http\Services\General\GeneralResponseService;
+use App\Services\Domain\Contracts\DomainServiceInterface;
+use App\Services\General\GeneralResponseService;
 
 class StoreCommentsDomainService extends AbstractComments implements DomainServiceInterface
 {
-
-
 
     public function execute($request)
     {

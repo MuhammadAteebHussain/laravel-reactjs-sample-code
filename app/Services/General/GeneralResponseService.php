@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Services\General;
+namespace App\Services\General;
 
 use App\Components\CustomStatusCodes;
 use App\Contracts\AbstractFilms;
