@@ -28,7 +28,7 @@ class FilmsTableSeeder extends Seeder
                         'release_date'=>'2022-01-01',
                         'ticket_price'=>'30',
                         'country'=>'UK',
-                        'photo'=>'photo_linlk',
+                        'photo'=>'https://livijumpa2.files.wordpress.com/2013/12/impossible.jpg',
                         'status'=>'1'
                     
                     ),
@@ -39,7 +39,7 @@ class FilmsTableSeeder extends Seeder
                         'release_date'=>'2022-01-01',
                         'ticket_price'=>'40',
                         'country'=>'US',
-                        'photo'=>'photo_linlk',
+                        'photo'=>'https://dcassetcdn.com/design_img/16298/35582/35582_406182_16298_image.jpg',
                         'status'=>'1'
                 
                     ),
@@ -50,7 +50,7 @@ class FilmsTableSeeder extends Seeder
                     'release_date'=>'2022-01-01',
                     'ticket_price'=>'50',
                     'country'=>'Germany',
-                    'photo'=>'photo_linlk',
+                    'photo'=>'https://webneel.com/sites/default/files/imagecache/660Thumbnail/images/blog/movie-poster-design.jpg',
                     'status'=>'1'
             
                 ),

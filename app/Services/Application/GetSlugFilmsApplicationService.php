@@ -3,7 +3,7 @@
 namespace App\Services\Application;
 
 use App\Components\CustomStatusCodes;
-use App\Contracts\AbstractFilms;
+use App\Abstracts\AbstractFilms;
 use App\Services\Application\Contracts\ApplicationServiceInterface;
 use App\Services\General\GeneralResponseService;
 

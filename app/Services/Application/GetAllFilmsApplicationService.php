@@ -3,7 +3,7 @@
 namespace App\Services\Application;
 
 use App\Components\CustomStatusCodes;
-use App\Contracts\AbstractFilms;
+use App\Abstracts\AbstractFilms;
 use App\Services\Application\Contracts\ApplicationServiceInterface;
 use App\Services\General\GeneralResponseService;
 
@@ -27,8 +27,9 @@ class GetAllFilmsApplicationService extends AbstractFilms implements Application
                 $data[$i]['rating'] = $film->FilmRatings->avg('rating');
                 $data[$i]['ticket_price'] = $film->ticket_price;
                 $data[$i]['country'] = $film->country;
-                $data[$i]['film_genre'] = $film->FilmGenre;
+                $data[$i]['film_genre'] = (object) $film->FilmGenre;
                 $data[$i]['photo'] = $film->photo;
+                $data[$i]['comments'] = (object) $film->Comments;
             }
 
             $result['code'] = CustomStatusCodes::FILM_SUCCESS;

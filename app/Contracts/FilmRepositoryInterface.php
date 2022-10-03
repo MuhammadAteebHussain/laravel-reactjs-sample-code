@@ -12,7 +12,4 @@ interface FilmRepositoryInterface
     public function assignGeneriesToFilm(object $object);
     public function addCommentsToFilm(object $object);
     
-    
-    
-
 }

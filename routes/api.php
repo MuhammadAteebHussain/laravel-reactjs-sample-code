@@ -28,6 +28,7 @@ Route::get('film/{slug}', [FilmController::class, 'showBySlug']);
 Route::post('user/register', [UserController::class, 'store']);
 Route::post('user/login', [UserController::class, 'login']);
 Route::post('film/store', [FilmController::class, 'store']);
+Route::get('comment/{film_id}', [CommentController::class, 'getCommentsByFilmId']);
 
 Route::middleware('auth:api')->group(function () {
     Route::post('genre/store', [GenreController::class, 'store']);

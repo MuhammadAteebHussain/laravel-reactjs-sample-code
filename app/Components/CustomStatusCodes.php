@@ -23,6 +23,9 @@ class CustomStatusCodes
     const SUCCESS_CREATED= 'Created';
     const GENERAL_ERROR_MESSAGE= 'Something Went Wrong';
 
+    const COMMENT_SUCCESS = 'fm9002';
+
+
     const HTTP_SUCCESS_CODE = 200;
     const HTTP_INSERTED_SUCCESS_CODE = 201;
     const HTTP_VALIDATION_FAILED_CODE = 400;

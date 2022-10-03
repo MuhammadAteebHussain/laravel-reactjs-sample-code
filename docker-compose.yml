@@ -34,6 +34,7 @@ services:
       - rabbitmq
       - mysql
 
+
  #mysql server container
   mysql:
     container_name: ${DB_CONTAINER}

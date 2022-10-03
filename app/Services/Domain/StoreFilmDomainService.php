@@ -2,7 +2,7 @@
 
 namespace App\Services\Domain;
 
-use App\Contracts\AbstractFilms;
+use App\Abstracts\AbstractFilms;
 use App\Services\Domain\Contracts\DomainServiceInterface;
 
 class StoreFilmDomainService extends AbstractFilms implements DomainServiceInterface

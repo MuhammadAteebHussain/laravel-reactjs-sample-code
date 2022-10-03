@@ -26,6 +26,7 @@ class UserLoginApplicationService extends AbstractUsers implements ApplicationSe
                 $result['code'] = CustomStatusCodes::LOGIN_SUCCESS;
                 $result['message'] = self::USER_LOGIN_SUCCESSFULLY;
                 $result['body'] = $token;
+                $result['body']['id'] = $user->id;
                 $result['http_code'] = CustomStatusCodes::HTTP_SUCCESS_CODE;
                 $result['status'] = CustomStatusCodes::RESPONSE_SUCCESS_TRUE;
             } else {

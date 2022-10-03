@@ -36,6 +36,14 @@ RUN apt-get update && apt-get install -y \
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
 && composer --version
 
+#install npm
+RUN apt-get update 
+RUN curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash –
+RUN apt-get install nodejs
+#WORKDIR is /var/www/html
+COPY . /server/http
+RUN npm install
+
 #install apc cache
 RUN pecl install apcu \
     && echo extension=apcu.so > /usr/local/etc/php/conf.d/apcu.ini
