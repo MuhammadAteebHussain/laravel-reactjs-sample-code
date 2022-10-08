@@ -21,7 +21,9 @@ class UserRegisterDomainService extends AbstractUsers implements DomainServiceIn
     public function execute($data)
     {
         $user=$this->registerUser($data);
-        $result=$this->userTokenGenerator($user);
+        $token=$this->userTokenGenerator($user);
+        $result['user_id'] = $user->id;
+        $result['token'] = $token;
         return $result;
     }
 }

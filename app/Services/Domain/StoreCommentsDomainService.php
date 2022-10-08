@@ -2,7 +2,7 @@
 
 namespace App\Services\Domain;
 
-use App\Contracts\AbstractComments;
+use App\Abstracts\AbstractComments;
 use App\Services\Domain\Contracts\DomainServiceInterface;
 use App\Services\General\GeneralResponseService;
 

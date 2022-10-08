@@ -11,5 +11,6 @@ interface FilmRepositoryInterface
     public function storeFilm(object $object);
     public function assignGeneriesToFilm(object $object);
     public function addCommentsToFilm(object $object);
+    public function getFilmCountries();
     
 }

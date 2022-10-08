@@ -20,15 +20,7 @@ class FilmController extends Controller
     {
         $this->repository = $film;
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
+
 
     /**
      * Display a all listing of the resource.
@@ -36,7 +28,7 @@ class FilmController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function getAllFilms()
-    {   
+    {
         try {
             $response = $this->repository->getAllFilms();
             return GeneralResponseService::responseGenerator($response['body'], $response['code'], $response['message'], $response['http_code'], $response['status']);
@@ -45,16 +37,6 @@ class FilmController extends Controller
         }
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -77,27 +59,16 @@ class FilmController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $slug
+     * @param  string  $slug
      * @return \Illuminate\Http\Response
      */
     public function showBySlug($slug)
     {
-
         try {
             $response = $this->repository->getFilmsBySlugName($slug);
             return GeneralResponseService::responseGenerator($response['body'], $response['code'], $response['message'], $response['http_code'], $response['status']);
@@ -106,37 +77,20 @@ class FilmController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
+        /**
+     * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $slug
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function getFilmCountries()
     {
-        //
+        try {
+            $response = $this->repository->getFilmCountries();
+            return GeneralResponseService::responseGenerator($response['body'], $response['code'], $response['message'], $response['http_code'], $response['status']);
+        } catch (\Exception $ex) {
+            return  GeneralResponseService::createExceptionResponse($ex);
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

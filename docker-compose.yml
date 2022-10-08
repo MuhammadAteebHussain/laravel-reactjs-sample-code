@@ -6,6 +6,8 @@ services:
     volumes:
       - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./:/server/http
+      - ./storage/logs/:/var/log/nginx
+      - ./public/images:/server/http/public/images
     ports:
       - 9084:80
       - 9043:443
@@ -26,6 +28,9 @@ services:
       - ./:/server/http
       - ./var/cache/xdebug:/tmp
       - /home/ateeb/.ssh/:/root/.ssh
+      - ./storage/logs/:/var/log/nginx
+      - ./public/images:/server/http/public/images
+      
     ports:
       - 9000:9000
     networks:

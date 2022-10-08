@@ -13,4 +13,9 @@ abstract class AbstractComments
         return $data;
     }
 
+    public function storeComment(array $data)
+    {   
+        $result = Comment::Create($data);
+        return $result;
+    }
 }

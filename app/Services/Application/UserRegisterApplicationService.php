@@ -26,10 +26,12 @@ class UserRegisterApplicationService implements ApplicationServiceInterface
             $data['email'] = $request['email'];
             $data['password'] = bcrypt($request['password']);
             $content = $this->user_register_service->execute($data);
+            
 
             $result['code'] = CustomStatusCodes::REGISTER_SUCCESS;
             $result['message'] = self::USER_REGISTER_SUCCESSFULLY;
-            $result['body'] = $content;
+            $result['body'] = $content['token'];
+            $result['body']['id'] = $content['user_id'];
             $result['http_code'] = CustomStatusCodes::HTTP_INSERTED_SUCCESS_CODE;
             $result['status'] = CustomStatusCodes::RESPONSE_SUCCESS_TRUE;
             return $result;

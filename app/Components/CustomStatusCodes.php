@@ -10,6 +10,7 @@ class CustomStatusCodes
     const LOGIN_SUCCESS = 'fm9001';
     const REGISTER_SUCCESS = 'fm9002';
     const FILM_SUCCESS = 'fm9002';
+    const COUNTRY_SUCCESS = 'fm9004';
     const FAILURE = 'fm1000';
     const LOGIN_FAILED = 'fm1001';
     const VALIDATION_CODE = 'fm1100';

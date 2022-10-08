@@ -29,7 +29,7 @@ class GetSlugFilmsApplicationService extends AbstractFilms implements Applicatio
             $result['status'] = CustomStatusCodes::RESPONSE_SUCCESS_TRUE;
             return $result;
         } catch (\Exception $ex) {
-            return GeneralResponseService::GenerateMessageByException($ex);
+            throw GeneralResponseService::GenerateMessageByException($ex);
         }
     }
 }

@@ -26,9 +26,9 @@ class GetAllFilmsApplicationService extends AbstractFilms implements Application
                 $data[$i]['description'] = $film->description;
                 $data[$i]['rating'] = $film->FilmRatings->avg('rating');
                 $data[$i]['ticket_price'] = $film->ticket_price;
-                $data[$i]['country'] = $film->country;
+                $data[$i]['country'] = $film->Countries->country;
                 $data[$i]['film_genre'] = (object) $film->FilmGenre;
-                $data[$i]['photo'] = $film->photo;
+                $data[$i]['photo'] = $this->getPhotoLink($film);
                 $data[$i]['comments'] = (object) $film->Comments;
             }
 
