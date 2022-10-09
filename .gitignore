@@ -15,3 +15,5 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
+/front_end/node_modules
+
