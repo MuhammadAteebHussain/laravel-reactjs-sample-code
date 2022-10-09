@@ -10,18 +10,26 @@ class StoreCommentsDomainService implements DomainServiceInterface
 
     protected CommentRepositoryInterface $repository;
 
+    /**
+     * __construct function
+     *
+     * @param CommentRepositoryInterface $repository
+     */
     public function __construct(CommentRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
 
-    public function execute($request)
+    /**
+     * execute function
+     *
+     * @param object|array $request
+     * @return array|boolean
+     */
+    public function execute(object|array $request) : object|bool
     {
         $data = $this->repository->storeComment($request);
-        if ($data) {
-            return $data;
-        } else {
-            return false;
-        }
+        return $data ? $data :  false;
+
     }
 }

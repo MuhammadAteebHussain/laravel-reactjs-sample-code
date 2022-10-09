@@ -23,7 +23,7 @@ class GetCommentsByFilmIdApplicationService implements ApplicationServiceInterfa
     }
 
 
-    public function execute($request = null)
+    public function execute($request = null) : array
     {
         try {
             $id = 1;

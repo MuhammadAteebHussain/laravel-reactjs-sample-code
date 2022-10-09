@@ -16,8 +16,13 @@ class StoreFilmDomainService  implements DomainServiceInterface
         $this->repository = $repository;
     }
 
-
-    public function execute($request)
+    /**
+     * execute function
+     *
+     * @param object|array $request
+     * @return object|boolean
+     */
+    public function execute(object|array $request) : object|bool
     {   
         $photo_move=$request['photo_object'];
         $destination_path=$request['destination_path'];

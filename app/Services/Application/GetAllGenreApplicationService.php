@@ -4,7 +4,9 @@ namespace App\Services\Application;
 
 use App\Services\Application\Contracts\ApplicationServiceInterface;
 use App\Components\CustomStatusCodes;
+use App\Exceptions\GeneralException;
 use App\Models\Genre;
+use Exception;
 
 class GetAllGenreApplicationService implements ApplicationServiceInterface
 {
@@ -18,7 +20,7 @@ class GetAllGenreApplicationService implements ApplicationServiceInterface
         $this->genre = $genre;
     }
 
-    public function execute($request=[])
+    public function execute($request = []): array|bool
     {
         $result['code'] = CustomStatusCodes::COUNTRY_SUCCESS;
         $result['message'] = self::SUCCESSFULLY;

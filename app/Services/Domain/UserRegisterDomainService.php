@@ -10,14 +10,25 @@ class UserRegisterDomainService extends AbstractUsers implements DomainServiceIn
 {
     protected UserRepositoryInterface $repository;
 
+    /**
+     * __construct function
+     *
+     * @param UserRepositoryInterface $repository
+     */
     public function __construct(UserRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
 
-    public function execute($data)
+    /**
+     * execute function
+     *
+     * @param object|array $request
+     * @return array
+     */
+    public function execute(object|array $request): array
     {
-        $user = $this->repository->registerUser($data);
+        $user = $this->repository->registerUser($request);
         $token = $this->userTokenGenerator($user);
         $result['user_id'] = $user->id;
         $result['token'] = $token;

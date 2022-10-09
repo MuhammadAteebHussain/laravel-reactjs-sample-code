@@ -17,36 +17,33 @@ class GetAllFilmsApplicationService implements ApplicationServiceInterface
 
     protected FilmRepositoryInterface $repository;
 
-    public function __construct(FilmRepositoryInterface $repository) {
+    public function __construct(FilmRepositoryInterface $repository)
+    {
         $this->repository = $repository;
     }
 
-    public function execute($request = null)
+    public function execute($request = null): array
     {
-        try {
-            $films = $this->repository->getAll();
-            $data = [];
-            foreach ($films as $i => $film) {
-                $data[$i]['film_name'] = $film->name;
-                $data[$i]['film_slug'] = $film->film_slug;
-                $data[$i]['description'] = $film->description;
-                $data[$i]['rating'] = $film->FilmRatings->avg('rating');
-                $data[$i]['ticket_price'] = $film->ticket_price;
-                $data[$i]['country'] = $film->Countries->country;
-                $data[$i]['film_genre'] = (object) $film->FilmGenre;
-                $data[$i]['photo'] = $this->getPhotoLink($film);
-                $data[$i]['comments'] = (object) $film->Comments;
-            }
-
-            $result['code'] = CustomStatusCodes::FILM_SUCCESS;
-            $result['message'] = self::FILM_FETCH_SUCCESSFULLY;
-            $result['body'] = $data;
-            $result['http_code'] = CustomStatusCodes::HTTP_SUCCESS_CODE;
-            $result['status'] = CustomStatusCodes::RESPONSE_SUCCESS_TRUE;
-            return $result;
-        } catch (\Exception $ex) {
-            return GeneralResponseService::GenerateMessageByException($ex);
+        $films = $this->repository->getAll();
+        $data = [];
+        foreach ($films as $i => $film) {
+            $data[$i]['film_name'] = $film->name;
+            $data[$i]['film_slug'] = $film->film_slug;
+            $data[$i]['description'] = $film->description;
+            $data[$i]['rating'] = $film->FilmRatings->avg('rating');
+            $data[$i]['ticket_price'] = $film->ticket_price;
+            $data[$i]['country'] = $film->Countries->country;
+            $data[$i]['film_genre'] = (object) $film->FilmGenre;
+            $data[$i]['photo'] = $this->getPhotoLink($film);
+            $data[$i]['comments'] = (object) $film->Comments;
         }
+
+        $result['code'] = CustomStatusCodes::FILM_SUCCESS;
+        $result['message'] = self::FILM_FETCH_SUCCESSFULLY;
+        $result['body'] = $data;
+        $result['http_code'] = CustomStatusCodes::HTTP_SUCCESS_CODE;
+        $result['status'] = CustomStatusCodes::RESPONSE_SUCCESS_TRUE;
+        return $result;
     }
 
     public function getPhotoLink($film)

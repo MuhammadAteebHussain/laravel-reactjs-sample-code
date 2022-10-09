@@ -15,16 +15,28 @@ use App\Services\General\GeneralResponseService;
 
 class FilmService implements FilmInterface
 {
-    protected $all_films_application_service;
-    protected $store_film_service;
-    protected $slug_film_application_service;
-    protected $assign_genre_film_application_service;
-    protected $general_response_service;
-    protected $store_comment_service;
-    protected  $get_comment_service;
-    protected  $countries;
+    protected GetAllFilmsApplicationService $all_films_application_service;
+    protected StoreFilmApplicationService $store_film_service;
+    protected GetSlugFilmsApplicationService $slug_film_application_service;
+    protected AssignGenreApplicationService $assign_genre_film_application_service;
+    protected GeneralResponseService $general_response_service;
+    protected StoreCommentsApplicationService $store_comment_service;
+    protected GetCommentsByFilmIdApplicationService $get_comment_service;
+    protected CountryService $countries;
 
 
+    /**
+     * __construct function
+     *
+     * @param GetAllFilmsApplicationService $all_films_application_service
+     * @param GetSlugFilmsApplicationService $slug_film_application_service
+     * @param GeneralResponseService $general_response_service
+     * @param StoreFilmApplicationService $store_film_service
+     * @param AssignGenreApplicationService $assign_genre_film_application_service
+     * @param StoreCommentsApplicationService $store_comment_service
+     * @param GetCommentsByFilmIdApplicationService $get_comment_service
+     * @param CountryService $countries
+     */
     public function __construct(
         GetAllFilmsApplicationService $all_films_application_service,
         GetSlugFilmsApplicationService $slug_film_application_service,
@@ -47,8 +59,12 @@ class FilmService implements FilmInterface
     }
 
 
-
-    public function getAllFilms()
+    /**
+     * getAllFilms function
+     *
+     * @return array
+     */
+    public function getAllFilms(): array
     {
         try {
             return  $this->all_films_application_service->execute();
@@ -57,18 +73,29 @@ class FilmService implements FilmInterface
         }
     }
 
-
-    public function getFilmsBySlugName(string $slug)
+    /**
+     * getFilmsBySlugName function
+     *
+     * @param string $slug
+     * @return array
+     */
+    public function getFilmsBySlugName(string $slug): array
     {
 
         try {
             return  $this->slug_film_application_service->execute($slug);
         } catch (\Exception $ex) {
-           throw $ex;
+            throw $ex;
         }
     }
 
-    public function storeFilm(object $validated_requet)
+    /**
+     * storeFilm function
+     *
+     * @param object $validated_requet
+     * @return array
+     */
+    public function storeFilm(object $validated_requet): array
     {
         try {
             return $this->store_film_service->execute($validated_requet);
@@ -77,8 +104,13 @@ class FilmService implements FilmInterface
         }
     }
 
-
-    public function assignGeneriesToFilm(object $validated_requet)
+    /**
+     * assignGeneriesToFilm function
+     *
+     * @param object $validated_requet
+     * @return array
+     */
+    public function assignGeneriesToFilm(object $validated_requet): array
     {
         try {
             return $this->assign_genre_film_application_service->execute($validated_requet);
@@ -87,7 +119,13 @@ class FilmService implements FilmInterface
         }
     }
 
-    public function addCommentsToFilm(object $validated_requet)
+    /**
+     * addCommentsToFilm function
+     *
+     * @param object|array $validated_requet
+     * @return array|object
+     */
+    public function addCommentsToFilm(object|array $validated_requet): array|object
     {
         try {
             return $this->store_comment_service->execute($validated_requet);
@@ -96,8 +134,13 @@ class FilmService implements FilmInterface
         }
     }
 
-
-    public function getCommentsByFilmId(object $validated_requet)
+    /**
+     * getCommentsByFilmId function
+     *
+     * @param object $validated_requet
+     * @return array
+     */
+    public function getCommentsByFilmId(object $validated_requet): array
     {
         try {
             return $this->get_comment_service->execute($validated_requet);
@@ -106,7 +149,12 @@ class FilmService implements FilmInterface
         }
     }
 
-    public function getFilmCountries()
+    /**
+     * getFilmCountries function
+     *
+     * @return array
+     */
+    public function getFilmCountries(): array
     {
         try {
             return $this->countries->listCountries();

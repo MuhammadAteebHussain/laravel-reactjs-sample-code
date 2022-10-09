@@ -10,20 +10,25 @@ class AssignFilmGenreDomainService implements DomainServiceInterface
 {
     protected FilmGenreRepositoryInterface $repository;
 
+    /**
+     * __construct function
+     *
+     * @param FilmGenreRepositoryInterface $repository
+     */
     public function __construct(FilmGenreRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
 
-
-    public function execute($request)
+    /**
+     * execute function
+     *
+     * @param object|array $request
+     * @return object|boolean
+     */
+    public function execute(object|array $request) : object|bool
     {
         $data = $this->repository->assignGenreToFilm($request);
-
-        if ($data) {
-            return $data;
-        } else {
-            return false;
-        }
+        return $data ? $data :  false;
     }
 }

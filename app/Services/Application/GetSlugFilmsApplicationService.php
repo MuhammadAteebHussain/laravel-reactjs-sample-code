@@ -6,7 +6,9 @@ use App\Components\CustomStatusCodes;
 use App\Abstracts\AbstractFilms;
 use App\Contracts\Repository\FilmRepositoryInterface;
 use App\Services\Application\Contracts\ApplicationServiceInterface;
-use App\Services\General\GeneralResponseService;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Str;
+
 
 class GetSlugFilmsApplicationService implements ApplicationServiceInterface
 {
@@ -16,12 +18,23 @@ class GetSlugFilmsApplicationService implements ApplicationServiceInterface
 
     protected FilmRepositoryInterface $repository;
 
+    /**
+     * __construct function
+     *
+     * @param FilmRepositoryInterface $repository
+     */
     public function __construct(FilmRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
 
-    public function execute($request)
+    /**
+     * execute function
+     *
+     * @param [type] $request
+     * @return array
+     */
+    public function execute($request) : array
     {
         $slug = $request;
         $film = $this->repository->getBySlug($slug);
@@ -34,8 +47,13 @@ class GetSlugFilmsApplicationService implements ApplicationServiceInterface
         return $result;
     }
 
-
-    public function singlefilmResponseGenerator(object $film)
+    /**
+     * singlefilmResponseGenerator function
+     *
+     * @param object $film
+     * @return array
+     */
+    public function singlefilmResponseGenerator(object $film): array
     {
         $data = array();
         $comment_data = array();
@@ -59,5 +77,21 @@ class GetSlugFilmsApplicationService implements ApplicationServiceInterface
         $data['comments'] = $comment_data;
         $data['photo'] = $this->getPhotoLink($film);
         return $data;
+    }
+
+    /**
+     * getPhotoLink function
+     * TODO CAll this function by helper
+     * @param [type] $film
+     * @return void
+     */
+    public function getPhotoLink($film)
+    {
+        if (Str::contains($film->photo, 'http')) {
+            $link = $film->photo;
+        } else {
+            $link = App::make('url')->to('/') . env('DESTINATION_PATH_FOR_IMAGES') . $film->photo;
+        }
+        return $link;
     }
 }

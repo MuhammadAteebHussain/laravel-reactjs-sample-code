@@ -21,18 +21,14 @@ class StoreFilmGenreApplicationService implements ApplicationServiceInterface
     }
 
 
-    public function execute($request)
+    public function execute($request): void
     {
-        try {
-            $genre = explode(",", $request['genre_ids']);
-            $genre_insert = array();
-            foreach ($genre as $i => $genre) {
-                $genre_insert[$i]['genre_id'] = $genre;
-                $genre_insert[$i]['film_id'] = $request['film_id'];
-            }
-            $this->store_film_genre->execute($genre_insert);
-        } catch (\Exception $ex) {
-            return GeneralResponseService::GenerateMessageByException($ex);
+        $genre = explode(",", $request['genre_ids']);
+        $genre_insert = array();
+        foreach ($genre as $i => $genre) {
+            $genre_insert[$i]['genre_id'] = $genre;
+            $genre_insert[$i]['film_id'] = $request['film_id'];
         }
+        $this->store_film_genre->execute($genre_insert);
     }
 }

@@ -11,8 +11,12 @@ class CountryService
     const SUCCESSFULLY ="country fetched";
 
 
-
-    public static function listCountries()
+    /**
+     * listCountries function
+     *
+     * @return array
+     */
+    public static function listCountries(): array
     {
 
         $result['code'] = CustomStatusCodes::COUNTRY_SUCCESS;

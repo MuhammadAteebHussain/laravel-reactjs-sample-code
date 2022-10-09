@@ -13,7 +13,7 @@ class StoreGenreRequest
     public static function ApiValidation($request)
     {
         return  Validator::make($request->all(), [
-            'genre_id'     => 'required|exists:genres,id|max:10',
+            'genre_id'     => 'required|exists:genres,id',
             'film_id'     => 'required|exists:films,id|max:20',
         ]);
     }

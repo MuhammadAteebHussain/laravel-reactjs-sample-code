@@ -34,12 +34,12 @@ class CommentService implements CommentInterface
     }
 
     /**
-     * Undocumented addCommentsToFilm
+     * addCommentsToFilm function
      *
      * @param object $validated_requet
-     * @return StoreCommentsApplicationService
+     * @return array
      */
-    public function addCommentsToFilm(object $validated_requet)
+    public function addCommentsToFilm(object $validated_requet): array
     {
         try {
             return $this->store_comment_service->execute($validated_requet);
@@ -48,8 +48,13 @@ class CommentService implements CommentInterface
         }
     }
 
-
-    public function getCommentsByFilmId(object $validated_requet)
+    /**
+     * getCommentsByFilmId function
+     *
+     * @param object $validated_requet
+     * @return array
+     */
+    public function getCommentsByFilmId(object $validated_requet): array
     {
         try {
             return $this->get_comment_service->execute($validated_requet);

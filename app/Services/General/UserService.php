@@ -10,11 +10,17 @@ use App\Services\General\GeneralResponseService;
 
 class UserService implements UserInterface
 {
-    protected $user_register_application_service;
-    protected $user_login_application_service;
-    protected $general_response_service;
+    protected UserRegisterApplicationService $user_register_application_service;
+    protected UserLoginApplicationService $user_login_application_service;
+    protected GeneralResponseService $general_response_service;
 
-
+    /**
+     * __construct function
+     *
+     * @param UserRegisterApplicationService $user_register_application_service
+     * @param UserLoginApplicationService $user_login_application_service
+     * @param GeneralResponseService $general_response_service
+     */
     public function __construct(UserRegisterApplicationService $user_register_application_service, UserLoginApplicationService $user_login_application_service, GeneralResponseService $general_response_service)
     {
         $this->user_register_application_service = $user_register_application_service;
@@ -23,8 +29,13 @@ class UserService implements UserInterface
     }
 
 
-
-    public function login(array $validated_request)
+    /**
+     * login function
+     *
+     * @param array $validated_request
+     * @return array
+     */
+    public function login(array $validated_request): array
     {
         try {
             return $this->user_login_application_service->execute($validated_request);
@@ -33,8 +44,13 @@ class UserService implements UserInterface
         }
     }
 
-
-    public function register(array $validated_request)
+    /**
+     * register function
+     *
+     * @param array $validated_request
+     * @return array
+     */
+    public function register(array $validated_request): array
     {
         try {
             return $this->user_register_application_service->execute($validated_request);

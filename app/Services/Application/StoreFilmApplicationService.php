@@ -25,7 +25,7 @@ class StoreFilmApplicationService implements ApplicationServiceInterface
     }
 
 
-    public function execute($request)
+    public function execute($request) : array
     {
 
         try {

@@ -12,14 +12,23 @@ class CommentController extends Controller
 {
 
     public $service;
-
+    /**
+     * __construct function
+     *
+     * @param CommentInterface $service
+     * @package CommentService
+     */
     public function __construct(CommentInterface $service)
     {
         $this->service = $service;
     }
-
-
-    public function store(Request $request)
+    /**
+     * store function
+     *
+     * @param Request $request
+     * @return object
+     */
+    public function store(Request $request): object
     {
         try {
             $validate_request = StoreCommentRequest::ApiValidation($request);
@@ -39,8 +48,13 @@ class CommentController extends Controller
         }
     }
 
-
-    public function getCommentsByFilmId(Request $request)
+    /**
+     * getCommentsByFilmId function
+     *
+     * @param Request $request
+     * @return object
+     */
+    public function getCommentsByFilmId(Request $request): object
     {
         try {
             $response = $this->service->getCommentsByFilmId($request);

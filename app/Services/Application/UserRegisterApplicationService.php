@@ -13,21 +13,20 @@ class UserRegisterApplicationService extends AbstractUsers implements Applicatio
     protected $user_register_service;
 
     const USER_REGISTER_FAILED_MESSAGE = 'Invalid User Name or Password';
-    const USER_REGISTER_SUCCESSFULLY = 'Login Successfully';
+    const USER_REGISTER_SUCCESSFULLY = 'Register Successfully';
 
     public function __construct(UserRegisterDomainService $user_register_service)
     {
         $this->user_register_service = $user_register_service;
     }
 
-    public function execute($request)
+    public function execute($request) : array
     {
         try {
             $data['name'] = $request['name'];
             $data['email'] = $request['email'];
             $data['password'] = bcrypt($request['password']);
             $content = $this->user_register_service->execute($data);
-            
             $result['code'] = CustomStatusCodes::REGISTER_SUCCESS;
             $result['message'] = self::USER_REGISTER_SUCCESSFULLY;
             $result['body'] = $content['token'];
