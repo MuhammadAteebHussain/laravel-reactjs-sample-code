@@ -2,35 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Components\CustomStatusCodes;
+use App\Contracts\FilmInterface;
 use App\Http\Requests\StoreFilmRequest;
-use App\Http\Services\General\GeneralResponseService;
+use App\Services\General\GeneralResponseService;
 use Illuminate\Http\Request;
-use App\Repositories\FilmRepository;
-use Illuminate\Support\Facades\Validator;
 
 class FilmController extends Controller
 {
 
-    public $repository;
+    public $service;
 
 
-
-
-
-    public function __construct(FilmRepository $film)
+    public function __construct(FilmInterface $film)
     {
-        $this->repository = $film;
+        $this->service = $film;
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
+
 
     /**
      * Display a all listing of the resource.
@@ -40,23 +27,13 @@ class FilmController extends Controller
     public function getAllFilms()
     {
         try {
-            $response = $this->repository->getAllFilms();
+            $response = $this->service->getAllFilms();
             return GeneralResponseService::responseGenerator($response['body'], $response['code'], $response['message'], $response['http_code'], $response['status']);
         } catch (\Exception $ex) {
             return  GeneralResponseService::createExceptionResponse($ex);
         }
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -71,7 +48,7 @@ class FilmController extends Controller
             if ($validate_request->fails()) {
                 $response = GeneralResponseService::ValidationResponse($validate_request->errors()->first());
             } else {
-                $response = $this->repository->storeFilm($request);
+                $response = $this->service->storeFilm($request);
             }
             return $response = GeneralResponseService::responseGenerator($response['body'], $response['code'], $response['message'], $response['http_code'], $response['status']);
         } catch (\Exception $ex) {
@@ -79,29 +56,18 @@ class FilmController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $slug
+     * @param  string  $slug
      * @return \Illuminate\Http\Response
      */
     public function showBySlug($slug)
     {
-
         try {
-            $response = $this->repository->getFilmsBySlugName($slug);
+            $response = $this->service->getFilmsBySlugName($slug);
             return GeneralResponseService::responseGenerator($response['body'], $response['code'], $response['message'], $response['http_code'], $response['status']);
         } catch (\Exception $ex) {
             return  GeneralResponseService::createExceptionResponse($ex);
@@ -109,36 +75,18 @@ class FilmController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $slug
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function getFilmCountries()
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        try {
+            $response = $this->service->getFilmCountries();
+            return GeneralResponseService::responseGenerator($response['body'], $response['code'], $response['message'], $response['http_code'], $response['status']);
+        } catch (\Exception $ex) {
+            return  GeneralResponseService::createExceptionResponse($ex);
+        }
     }
 }

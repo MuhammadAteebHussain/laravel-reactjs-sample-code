@@ -11,8 +11,8 @@ class Comment extends Model
 
     protected $fillable=['user_id','film_id','comment'];
 
-    public function Users()
+    public function User()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsTo(User::class);
     }
 }

@@ -1,0 +1,147 @@
+version: '3'
+services:
+  nginx:
+    container_name: ${NGINX_CONTAINER}
+    image: nginx:${NGINX_VERSION}
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./:/server/http
+      - ./storage/logs/:/var/log/nginx
+      - ./public/images:/server/http/public/images
+    ports:
+      - 9084:80
+      - 9043:443
+    networks:
+      - film-app
+    links:
+      - php
+      - mysql
+      - rabbitmq
+
+  php:
+    container_name: ${PHP_CONTAINER}
+    build:
+      context: .
+      dockerfile: docker/php-fpm/Dockerfile
+    restart: unless-stopped
+    volumes:
+      - ./:/server/http
+      - ./var/cache/xdebug:/tmp
+      - /home/ateeb/.ssh/:/root/.ssh
+      - ./storage/logs/:/var/log/nginx
+      - ./public/images:/server/http/public/images
+      
+    ports:
+      - 9000:9000
+    networks:
+      - film-app
+    links:
+      - rabbitmq
+      - mysql
+
+
+ #mysql server container
+  mysql:
+    container_name: ${DB_CONTAINER}
+    image: mysql:${DB_VERSION}
+    restart: unless-stopped
+    hostname: ${DB_HOST}
+    environment:
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_ROOT_USER=${DB_ROOT_USER}
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - db-mysql-volume:/var/lib/mysql
+    ports:
+      - 9006:3306
+    networks:
+       film-app:
+        aliases:
+          - mysql
+    expose:
+      - '3306'
+
+  rabbitmq:
+    container_name: ${AMQP_CONTAINER}
+    image: "rabbitmq:3-management"
+    restart: unless-stopped
+    hostname: ${AMQP_HOST}
+    environment:
+      RABBITMQ_ERLANG_COOKIE: ${ERLANG_COOKIE}
+      RABBITMQ_DEFAULT_USER: ${AMQP_USER}
+      RABBITMQ_DEFAULT_PASS: ${AMQP_PASS}
+      RABBITMQ_DEFAULT_VHOST: ${AMQP_VHOST}
+    volumes:
+      - ./docker/rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+      - ./docker/rabbitmq/definitions.json:/etc/rabbitmq/definitions.json
+    ports:
+      - "9072:15672"
+      - "9073:5672"
+    networks:
+      - film-app
+    tty: true
+    command: bash -c "rabbitmq-plugins enable rabbitmq_management; rabbitmq-server;"
+    expose:
+      - '5672'
+      - '15672'
+
+  sonarqube:
+    container_name: ${SONARQUBE_CONTAINER}
+    image: sonarqube:community
+    hostname: ${SONARQUBE_HOST}
+    depends_on:
+      - sonar-db
+    environment:
+      SONAR_JDBC_URL: jdbc:postgresql://db:5432/sonar
+      SONAR_JDBC_USERNAME: ${SONARQUBE_USER}
+      SONAR_JDBC_PASSWORD: ${SONARQUBE_PASSWORD}
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_extensions:/opt/sonarqube/extensions
+      - sonarqube_logs:/opt/sonarqube/logs
+    networks:
+      - film-app
+    ports:
+      - "9004:9004"
+
+  sonar-db:
+    container_name: ${POSTGRES_CONTAINER}
+    image: postgres:12
+    hostname: postgresql
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgresql:/var/lib/postgresql
+      - postgresql_data:/var/lib/postgresql/data
+    ports:
+      - "9005:9005"
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    command: redis-server --appendonly yes
+    ports:
+      - 6379:6379
+    volumes:
+      - ./data:/data
+    restart: always
+    networks:
+      - film-app
+
+#Docker Networks
+networks:
+  film-app:
+    name: film-app
+    driver: bridge
+
+volumes:
+  db-mysql-volume:
+  sonarqube_data:
+  sonarqube_extensions:
+  sonarqube_logs:
+  postgresql:
+  postgresql_data:

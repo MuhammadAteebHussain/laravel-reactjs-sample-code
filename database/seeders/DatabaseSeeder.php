@@ -13,8 +13,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\Film::factory(10)->create();
-        // \App\Models\Film::factory(10)->create();
+    
         $this->call([
             FilmsTableSeeder::class,
             GenreSeed::class,
@@ -22,6 +21,7 @@ class DatabaseSeeder extends Seeder
             FilmGenreSeed::class,
             FilmUserRatingSeed::class,
             CommentsSeed::class,
+            CountryTableSeed::class,
         ]);
         
     }
