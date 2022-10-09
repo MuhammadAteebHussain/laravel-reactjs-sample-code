@@ -1,67 +1,85 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Film Management
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+The Application is based on Laravel 9 with PHP Version 8.1. backend completely based on container based. All the required images setup in docker-compose.yml file. For setting Application follow these steps.
 
-## About Laravel
+## Installation
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Note: Make sure docker and docker-compose must be install in your OS version must be latest. 
+Copy .env.example (currently you will get sample .env) to .env and update credentials
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+```bash
+git clone https://github.com/MuhammadAteebHussain/laravel-with-domain-driven-development.git
+```
+* stop any previous development environment.
+```bash
+docker-compose -f docker-compose.yml down --remove-orphans
+docker-compose -f docker-compose.yml rm -f -s
+```
+* starting development environment please make sure check the ports in docker-compose.yml
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+```bash
+docker-compose up -d --build
+```
+* it will take some time in building application. After successful installation enter in your php container by using the following command.
 
-## Learning Laravel
+```bash
+sudo docker exec -it film_application_laravel_php  bash
+```
+* Note: For checking your all up containers run the below command. This will show you all the ports that your containers are using.
+```bash
+sudo docker-compose ps -a
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+* Now give write access permission to storage directory by using the following command.
+```bash
+root@9525a373f4d1:/server/http# chmod 777 -R storage 
+```
+* Now give write access permission to root tmp.
+```bash
+root@9525a373f4d1:/server/http# chmod -R 777 /tmp
+```
+* Install composer
+```bash
+root@9525a373f4d1:/server/http# composer install
+```
+* generate autoload files
+```bash
+root@9525a373f4d1:/server/http# composer dumpautoload -o
+```
+* RUN DB migrations it will setup migrations with DB seeders
+```bash
+root@9525a373f4d1:/server/http# php artisan migrate:fresh --seed
+```
+* Install passport
+```bash
+root@9525a373f4d1:/server/http# php artisan install:passport
+```
+* Run Tests
+```bash
+root@9525a373f4d1:/server/http# php artisan test
+```
+## Setting Front End ReactJs
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+For setting Frontend make sure your system have node version v12.22.12 and npm version 7.5.2. In this release you will see frontend validation and alerts are missing. but It will be deploy soon in upcoming release. For installing current application follow these steps. make sure run the commands outside to your container.
 
-## Laravel Sponsors
+```bash
+cd front_end/
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+```bash
+install npm
+```
+Note: if you will face any permission issue run the commands by using sudo.
+```bash
+install run start
+```
+Congratulations! Your application is working now
 
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
 
 ## Contributing
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Please make sure to update tests as appropriate.
 
 ## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-
-pleas give permssion 777 to your tmp inside container
-chmod -R 777 /tmp
+[MIT](https://choosealicense.com/licenses/mit/)

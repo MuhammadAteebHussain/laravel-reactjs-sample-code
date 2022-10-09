@@ -5,7 +5,6 @@ namespace App\Services\Application;
 use App\Components\CustomStatusCodes;
 use App\Contracts\Repository\FilmRepositoryInterface;
 use App\Services\Application\Contracts\ApplicationServiceInterface;
-use App\Services\General\GeneralResponseService;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
 

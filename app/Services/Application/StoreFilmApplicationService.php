@@ -67,4 +67,6 @@ class StoreFilmApplicationService implements ApplicationServiceInterface
             return GeneralResponseService::GenerateMessageByException($ex);
         }
     }
+
+    
 }
