@@ -23,7 +23,7 @@ class UserLoginApplicationService extends AbstractUsers implements ApplicationSe
     }
 
 
-    public function execute($request = null)
+    public function execute($request = null) : array
     {
         try {
             $data['email'] = $request['email'];

@@ -8,8 +8,8 @@ use App\Contracts\GeneralResponseServiceInterface;
 class GeneralResponseService implements GeneralResponseServiceInterface
 {
 
-
-    public static function generateResponse($body, $code, $message, $http_code)
+    
+    public static function generateResponse($body, $code, $message, $http_code): object
     {
         $header['code'] = $code;
         $header['message'] = $message;
@@ -21,7 +21,7 @@ class GeneralResponseService implements GeneralResponseServiceInterface
         return response($data, $http_code);
     }
 
-    public static function successResponseFetch(array $body)
+    public static function successResponseFetch(array $body): object
     {
         $code = CustomStatusCodes::HTTP_SUCCESS_CODE;
         $message = CustomStatusCodes::SUCCESS_GENERAL_MESSAGE;
@@ -30,7 +30,7 @@ class GeneralResponseService implements GeneralResponseServiceInterface
         return self::responseGenerator($body, $code, $message, $http_code, true);
     }
 
-    public static function successResponseCreated($body)
+    public static function successResponseCreated($body): object
     {
         $code = CustomStatusCodes::HTTP_SUCCESS_CODE;
         $message = CustomStatusCodes::SUCCESS_CREATED;
@@ -39,7 +39,7 @@ class GeneralResponseService implements GeneralResponseServiceInterface
         return self::responseGenerator($body, $code, $message, $http_code, true);
     }
 
-    public static function responseGenerator($body, $code, $message, $http_code, $status = true)
+    public static function responseGenerator($body, $code, $message, $http_code, $status = true) : object
     {
         $header['code'] = $code;
         $header['message'] = $message;
@@ -51,18 +51,18 @@ class GeneralResponseService implements GeneralResponseServiceInterface
         return response($data, $http_code);
     }
 
-    public static function createExceptionResponse($ex)
+    public static function createExceptionResponse($ex): object
     {
 
         return self::responseGenerator([], CustomStatusCodes::GENERAL_VALIDATION_CODE, self::GenerateMessageByException($ex), CustomStatusCodes::HTTP_INTERNAL_SERVER_ERROR_CODE, false);
     }
 
-    public static function GenerateMessageByException(object $ex)
+    public static function GenerateMessageByException(object $ex): string
     {
         return $ex->getMessage() . '-' . $ex->getFile() . '-' . $ex->getLine();
     }
 
-    public static function ValidationResponse($message)
+    public static function ValidationResponse($message): array
     {
         $response['code'] = CustomStatusCodes::GENERAL_VALIDATION_CODE;
         $response['message'] = $message;

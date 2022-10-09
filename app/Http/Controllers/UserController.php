@@ -15,22 +15,24 @@ class UserController extends Controller
     public $user;
 
 
-
-
-
+    /**
+     * __construct function
+     *
+     * @param UserInterface $user
+     * @package User
+     */
     public function __construct(UserInterface $user)
     {
         $this->user = $user;
     }
 
-
     /**
-     * Store a newly created resource in storage.
+     * store function
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return object
      */
-    public function store(Request $request)
+    public function store(Request $request): object
     {
         try {
             $validate_request = StoreUserRequest::ApiValidation($request);
@@ -46,13 +48,14 @@ class UserController extends Controller
         }
     }
 
+
     /**
-     * Store a newly created resource in storage.
+     * login function
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return object
      */
-    public function login(Request $request)
+    public function login(Request $request): object
     {
         try {
             $validate_request = LoginUserRequest::ApiValidation($request);

@@ -22,7 +22,7 @@ class StoreCommentsApplicationService  implements ApplicationServiceInterface
     }
 
 
-    public function execute($request)
+    public function execute($request) : array
     {
         try {
             $data = array(

@@ -14,14 +14,23 @@ class AssignGenreApplicationService implements ApplicationServiceInterface
     const GENRE_SUCCESS_MESSAGE = 'Inserted Successfully';
     const GENRE_ERROR_MESSAGE = 'Something Went Wrong';
 
-
+    /**
+     * __construct function
+     *
+     * @param AssignFilmGenreDomainService $store_genre_service_service
+     */
     public function __construct(AssignFilmGenreDomainService $store_genre_service_service)
     {
         $this->store_genre_service_service = $store_genre_service_service;
     }
 
-
-    public function execute($request)
+    /**
+     * execute function
+     *
+     * @param [type] $request
+     * @return array
+     */
+    public function execute($request) : array
     {
         try {
             $data = array(

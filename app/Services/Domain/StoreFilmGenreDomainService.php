@@ -10,13 +10,25 @@ class StoreFilmGenreDomainService implements DomainServiceInterface
 
     protected FilmGenreRepositoryInterface $repository;
 
+    /**
+     * __construct function
+     *
+     * @param FilmGenreRepositoryInterface $repository
+     */
     public function __construct(FilmGenreRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
 
-    public function execute($request)
+   
+    /**
+     * execute function
+     *
+     * @param object|array $request
+     * @return object|boolean
+     */
+    public function execute(object|array $request) : object|bool
     {
-        $this->repository->insertGenre($request);
+         return $this->repository->insertGenre($request);
     }
 }
