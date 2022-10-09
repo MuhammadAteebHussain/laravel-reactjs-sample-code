@@ -32,8 +32,7 @@ Route::post('film/store', [FilmController::class, 'store']);
 Route::get('comment/{film_id}', [CommentController::class, 'getCommentsByFilmId']);
 
 Route::middleware('auth:api')->group(function () {
-    Route::post('genre/store', [GenreController::class, 'store']);
-    
+    Route::post('genre/store', [GenreController::class, 'store']);    
     Route::post('comment/store', [CommentController::class, 'store']);
 });
 Route::get('genre/list', [GenreController::class, 'list']);

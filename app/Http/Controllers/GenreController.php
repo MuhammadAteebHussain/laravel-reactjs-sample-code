@@ -11,13 +11,11 @@ use App\Repositories\FilmRepository;
 class GenreController extends Controller
 {
 
-    public $repository;
     public $service;
 
 
-    public function __construct(FilmRepository $film, GenreServiceInterface $service)
+    public function __construct(GenreServiceInterface $service)
     {
-        $this->repository = $film;
         $this->service = $service;
     }
     /**
@@ -58,7 +56,7 @@ class GenreController extends Controller
             if ($validate_request->fails()) {
                 $response = GeneralResponseService::ValidationResponse($validate_request->errors()->first());
             } else {
-                $response = $this->repository->assignGeneriesToFilm($request);
+                $response = $this->service->assignGeneriesToFilm($request);
             }
             return GeneralResponseService::responseGenerator($response['body'], $response['code'], $response['message'], $response['http_code'], $response['status']);
         } catch (\Exception $ex) {

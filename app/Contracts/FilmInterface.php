@@ -3,7 +3,7 @@
 namespace App\Contracts;
 
 
-interface FilmRepositoryInterface
+interface FilmInterface
 {
 
     public function getAllFilms();

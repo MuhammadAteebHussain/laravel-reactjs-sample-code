@@ -1,10 +1,8 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Services\General;
 
-use App\Components\CustomStatusCodes;
-use App\Contracts\FilmRepositoryInterface;
-use App\Models\Film;
+use App\Contracts\FilmInterface;
 use App\Services\Application\GetAllFilmsApplicationService;
 use App\Services\Application\GetSlugFilmsApplicationService;
 use App\Services\Application\AssignGenreApplicationService;
@@ -15,7 +13,7 @@ use App\Services\General\CountryService;
 use App\Services\General\GeneralResponseService;
 
 
-class FilmRepository implements FilmRepositoryInterface
+class FilmService implements FilmInterface
 {
     protected $all_films_application_service;
     protected $store_film_service;
@@ -80,7 +78,14 @@ class FilmRepository implements FilmRepositoryInterface
     }
 
 
-
+    public function assignGeneriesToFilm(object $validated_requet)
+    {
+        try {
+            return $this->assign_genre_film_application_service->execute($validated_requet);
+        } catch (\Exception $ex) {
+            return GeneralResponseService::GenerateMessageByException($ex);
+        }
+    }
 
     public function addCommentsToFilm(object $validated_requet)
     {
