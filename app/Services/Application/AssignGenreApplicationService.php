@@ -2,13 +2,12 @@
 
 namespace App\Services\Application;
 
-use App\Contracts\AbstractGenres;
 use App\Services\Application\Contracts\ApplicationServiceInterface;
 use App\Services\Domain\AssignFilmGenreDomainService;
 use App\Components\CustomStatusCodes;
 use App\Services\General\GeneralResponseService;
 
-class AssignGenreApplicationService  implements ApplicationServiceInterface
+class AssignGenreApplicationService implements ApplicationServiceInterface
 {
     protected $store_genre_service_service;
 
@@ -24,8 +23,6 @@ class AssignGenreApplicationService  implements ApplicationServiceInterface
 
     public function execute($request)
     {
-
-
         try {
             $data = array(
                 'genre_id' =>  $request['genre_id'],

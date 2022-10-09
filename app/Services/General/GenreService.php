@@ -9,8 +9,8 @@ use App\Services\Application\GetAllGenreApplicationService;
 class GenreService implements GenreServiceInterface
 {
 
-    protected $assign_genre_film_application_service;
-    protected $get_all_genre_service;
+    protected AssignGenreApplicationService $assign_genre_film_application_service;
+    protected GetAllGenreApplicationService $get_all_genre_service;
 
 
     public function __construct(
@@ -23,21 +23,13 @@ class GenreService implements GenreServiceInterface
         $this->get_all_genre_service = $get_all_genre_service;
     }
 
-    public  function listGenres()
+    public  function listGenres(): array
     {
-        try {
-           return $this->get_all_genre_service->execute();
-        } catch (\Exception $ex) {
-            return GeneralResponseService::GenerateMessageByException($ex);
-        }
+        return $this->get_all_genre_service->execute();
     }
 
-    public function assignGeneriesToFilm(object $validated_requet)
+    public function assignGeneriesToFilm(object $validated_requet) : array
     {
-        try {
-            return $this->assign_genre_film_application_service->execute($validated_requet);
-        } catch (\Exception $ex) {
-            return GeneralResponseService::GenerateMessageByException($ex);
-        }
+        return $this->assign_genre_film_application_service->execute($validated_requet);
     }
 }

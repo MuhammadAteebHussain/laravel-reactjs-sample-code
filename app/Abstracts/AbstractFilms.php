@@ -58,8 +58,6 @@ abstract class AbstractFilms
                 }
             }
 
-
-
             $data['comments'] = $comment_data;
             $data['photo'] = $this->getPhotoLink($film);
 
@@ -75,13 +73,4 @@ abstract class AbstractFilms
         return $data;
     }
 
-    public function getPhotoLink($film)
-    {
-        if (Str::contains($film->photo, 'http')) {
-            $link = $film->photo;
-        } else {
-            $link = App::make('url')->to('/') . env('DESTINATION_PATH_FOR_IMAGES') . $film->photo;
-        }
-        return $link;
-    }
 }

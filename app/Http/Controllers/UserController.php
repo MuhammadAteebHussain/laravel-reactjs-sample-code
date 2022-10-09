@@ -3,13 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Components\CustomStatusCodes;
+use App\Contracts\UserInterface;
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Services\General\GeneralResponseService;
 use Illuminate\Http\Request;
-use App\Repositories\FilmRepository;
-use App\Repositories\UserRepository;
-use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -20,31 +18,11 @@ class UserController extends Controller
 
 
 
-    public function __construct(UserRepository $user)
+    public function __construct(UserInterface $user)
     {
         $this->user = $user;
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function customLogin(Request $request)
-    {
-        return view('auth.login');
-    }
 
     /**
      * Store a newly created resource in storage.

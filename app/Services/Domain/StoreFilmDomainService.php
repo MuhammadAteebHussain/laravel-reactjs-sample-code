@@ -2,18 +2,23 @@
 
 namespace App\Services\Domain;
 
-use App\Abstracts\AbstractFilms;
+use App\Contracts\Repository\FilmRepositoryInterface;
 use App\Services\Domain\Contracts\DomainServiceInterface;
 
-class StoreFilmDomainService extends AbstractFilms implements DomainServiceInterface
+class StoreFilmDomainService  implements DomainServiceInterface
 {
 
+
+    protected FilmRepositoryInterface $repository;
+
+    public function __construct(FilmRepositoryInterface $repository)
+    {
+        $this->repository = $repository;
+    }
 
 
     public function execute($request)
     {   
-
-        //becuaase it is our write layer so all write work will done here
         $photo_move=$request['photo_object'];
         $destination_path=$request['destination_path'];
         $image_name=$request['photo'];
@@ -21,7 +26,7 @@ class StoreFilmDomainService extends AbstractFilms implements DomainServiceInter
         if($photo_move==true){
             unset($request['photo_object']);
             unset($request['destination_path']);
-            return $this->storeFilms($request);
+            return $this->repository->storeFilms($request);
         }else{
             return false;
         }

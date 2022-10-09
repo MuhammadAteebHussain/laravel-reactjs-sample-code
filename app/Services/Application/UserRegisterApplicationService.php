@@ -3,11 +3,12 @@
 namespace App\Services\Application;
 
 use App\Components\CustomStatusCodes;
+use App\Abstracts\AbstractUsers;
 use App\Services\Domain\UserRegisterDomainService;
 use App\Services\Application\Contracts\ApplicationServiceInterface;
 use App\Services\General\GeneralResponseService;
 
-class UserRegisterApplicationService implements ApplicationServiceInterface
+class UserRegisterApplicationService extends AbstractUsers implements ApplicationServiceInterface
 {
     protected $user_register_service;
 
@@ -27,7 +28,6 @@ class UserRegisterApplicationService implements ApplicationServiceInterface
             $data['password'] = bcrypt($request['password']);
             $content = $this->user_register_service->execute($data);
             
-
             $result['code'] = CustomStatusCodes::REGISTER_SUCCESS;
             $result['message'] = self::USER_REGISTER_SUCCESSFULLY;
             $result['body'] = $content['token'];

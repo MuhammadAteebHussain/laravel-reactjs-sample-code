@@ -2,13 +2,12 @@
 
 namespace App\Services\Application;
 
-use App\Contracts\AbstractFilms;
 use App\Services\Application\Contracts\ApplicationServiceInterface;
 use App\Services\Domain\StoreFilmDomainService;
 use App\Components\CustomStatusCodes;
 use App\Services\General\GeneralResponseService;
 
-class StoreFilmApplicationService  implements ApplicationServiceInterface
+class StoreFilmApplicationService implements ApplicationServiceInterface
 {
     protected $store_film_service_service;
     protected $store_film_genre_service;
@@ -17,8 +16,10 @@ class StoreFilmApplicationService  implements ApplicationServiceInterface
     const FILM_ERROR_MESSAGE = 'Something Went Wrong';
 
 
-    public function __construct(StoreFilmDomainService $store_film_service_service, StoreFilmGenreApplicationService $store_film_genre_service)
-    {
+    public function __construct(
+        StoreFilmDomainService $store_film_service_service,
+        StoreFilmGenreApplicationService $store_film_genre_service
+    ) {
         $this->store_film_service_service = $store_film_service_service;
         $this->store_film_genre_service = $store_film_genre_service;
     }
@@ -28,13 +29,10 @@ class StoreFilmApplicationService  implements ApplicationServiceInterface
     {
 
         try {
-
             $data = $request->all();
-
             $destination_path = env('DESTINATION_PATH_FOR_IMAGES');
             $photo = $request->file('photo');
             $image_name = rand() . $photo->getClientOriginalName();
-
             $data = array(
                 'name' =>  $data['name'],
                 'film_slug' => $data['film_slug'],

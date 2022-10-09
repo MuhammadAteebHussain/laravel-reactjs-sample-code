@@ -2,25 +2,26 @@
 
 namespace App\Services\Domain;
 
-use App\Abstracts\AbstractComments;
+use App\Contracts\Repository\CommentRepositoryInterface;
 use App\Services\Domain\Contracts\DomainServiceInterface;
-use App\Services\General\GeneralResponseService;
 
-class StoreCommentsDomainService extends AbstractComments implements DomainServiceInterface
+class StoreCommentsDomainService implements DomainServiceInterface
 {
+
+    protected CommentRepositoryInterface $repository;
+
+    public function __construct(CommentRepositoryInterface $repository)
+    {
+        $this->repository = $repository;
+    }
 
     public function execute($request)
     {
-
-        try {
-            $data = $this->storeComment($request);
-            if ($data) {
-                return $data;
-            } else {
-                return false;
-            }
-        } catch (\Exception $ex) {
-            return GeneralResponseService::GenerateMessageByException($ex);
+        $data = $this->repository->storeComment($request);
+        if ($data) {
+            return $data;
+        } else {
+            return false;
         }
     }
 }

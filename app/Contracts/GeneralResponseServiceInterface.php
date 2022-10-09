@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\General;
+namespace App\Contracts;
 
 
 interface GeneralResponseServiceInterface

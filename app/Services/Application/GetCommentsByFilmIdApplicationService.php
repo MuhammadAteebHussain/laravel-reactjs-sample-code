@@ -5,23 +5,29 @@ namespace App\Services\Application;
 use App\Abstracts\AbstractComments;
 use App\Components\CustomStatusCodes;
 use App\Abstracts\AbstractFilms;
+use App\Contracts\Repository\CommentRepositoryInterface;
 use App\Services\Application\Contracts\ApplicationServiceInterface;
 use App\Services\General\GeneralResponseService;
 
-class GetCommentsByFilmIdApplicationService extends AbstractComments implements ApplicationServiceInterface
+class GetCommentsByFilmIdApplicationService implements ApplicationServiceInterface
 {
 
     const COMMENT_FAILED = 'Invalid User Name or Password';
     const COMMENT_FETCH_SUCCESSFULLY = 'Comments Fetched';
 
+    protected CommentRepositoryInterface $repository;
+
+    public function __construct(CommentRepositoryInterface $repository)
+    {
+        $this->repository = $repository;
+    }
+
 
     public function execute($request = null)
     {
-
         try {
             $id = 1;
-            $comment = $this->getCommentsByFilmId($id);
-
+            $comment = $this->repository->getCommentsByFilmId($id);
             $data = [];
             foreach ($comment as $i => $film) {
                 $data[$i]['id'] = $film->id;

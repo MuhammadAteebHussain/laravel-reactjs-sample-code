@@ -24,8 +24,6 @@ class StoreCommentsApplicationService  implements ApplicationServiceInterface
 
     public function execute($request)
     {
-
-
         try {
             $data = array(
                 'user_id' => $request['user_id'],

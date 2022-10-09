@@ -7,7 +7,7 @@ use App\Services\Application\Contracts\ApplicationServiceInterface;
 use App\Services\Domain\StoreFilmGenreDomainService;
 use App\Services\General\GeneralResponseService;
 
-class StoreFilmGenreApplicationService  implements ApplicationServiceInterface
+class StoreFilmGenreApplicationService implements ApplicationServiceInterface
 {
     protected $store_film_genre;
 
@@ -23,7 +23,6 @@ class StoreFilmGenreApplicationService  implements ApplicationServiceInterface
 
     public function execute($request)
     {
-
         try {
             $genre = explode(",", $request['genre_ids']);
             $genre_insert = array();

@@ -2,16 +2,21 @@
 
 namespace App\Services\Domain;
 
-use App\Models\FilmGenre;
+use App\Contracts\Repository\FilmGenreRepositoryInterface;
 use App\Services\Domain\Contracts\DomainServiceInterface;
 
 class StoreFilmGenreDomainService implements DomainServiceInterface
 {
 
+    protected FilmGenreRepositoryInterface $repository;
+
+    public function __construct(FilmGenreRepositoryInterface $repository)
+    {
+        $this->repository = $repository;
+    }
+
     public function execute($request)
-    {   
-
-        FilmGenre::insert($request);
-
+    {
+        $this->repository->insertGenre($request);
     }
 }
