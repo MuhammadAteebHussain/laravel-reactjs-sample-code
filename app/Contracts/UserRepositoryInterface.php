@@ -6,7 +6,7 @@ namespace App\Contracts;
 interface UserRepositoryInterface
 {
 
-    public function login(array $request);
-    public function register(array $request);
+    public function registerUser(array $user);
+    public function loginUser(array $request);
 
 }

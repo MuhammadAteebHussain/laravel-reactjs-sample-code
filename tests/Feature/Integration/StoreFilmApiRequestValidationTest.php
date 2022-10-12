@@ -3,7 +3,6 @@
 namespace Tests\Feature\Integration;
 
 use App\Models\Film;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
@@ -33,9 +32,9 @@ class StoreFilmApiRequestValidationTest extends TestCase
             'description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry"s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged',
             'release_date' => '2019-01-01',
             'ticket_price' => '24.10',
-            'country' => 'Pakistan',
+            'country_id' => 1,
             'photo' =>  UploadedFile::fake()->create('invoice.png', 1024),
-            'genre_id' => 1,
+            'genre_ids' => 1,
         );
         $response = $this->post('api/film/store', $data);
         $response->assertStatus(400);
@@ -49,9 +48,9 @@ class StoreFilmApiRequestValidationTest extends TestCase
             'description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry"s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged',
             'release_date' => '2019-01-01',
             'ticket_price' => '24.10',
-            'country' => 'Pakistan',
+            'country_id_id' => 1,
             'photo' =>  UploadedFile::fake()->create('invoice.png', 1024),
-            'genre_id' => 1,
+            'genre_ids' => 1,
         );
         $response = $this->post('api/film/store', $data);
         $response->assertStatus(400);
@@ -65,9 +64,9 @@ class StoreFilmApiRequestValidationTest extends TestCase
             'description' => '',
             'release_date' => '2019-01-01',
             'ticket_price' => '24.10',
-            'country' => 'Pakistan',
+            'country_id' => 1,
             'photo' =>  UploadedFile::fake()->create('invoice.png', 1024),
-            'genre_id' => 1,
+            'genre_ids' => 1,
         );
         $response = $this->post('api/film/store', $data);
         $response->assertStatus(400);
@@ -81,9 +80,9 @@ class StoreFilmApiRequestValidationTest extends TestCase
             'description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry"s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged',
             'release_date' => '',
             'ticket_price' => '24.10',
-            'country' => 'Pakistan',
+            'country_id' => 1,
             'photo' =>  UploadedFile::fake()->create('invoice.png', 1024),
-            'genre_id' => 1,
+            'genre_ids' => 1,
         );
         $response = $this->post('api/film/store', $data);
         $response->assertStatus(400);
@@ -98,15 +97,15 @@ class StoreFilmApiRequestValidationTest extends TestCase
             'description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry"s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged',
             'release_date' => '2019-01-01',
             'ticket_price' => '',
-            'country' => 'Pakistan',
+            'country_id' => 1,
             'photo' =>  UploadedFile::fake()->create('invoice.png', 1024),
-            'genre_id' => 1,
+            'genre_ids' => 1,
         );
         $response = $this->post('api/film/store', $data);
         $response->assertStatus(400);
     }
 
-    public function test_store_film_get_validation_message_country_feild_required()
+    public function test_store_film_get_validation_message_country_id_feild_required()
     {
         $data = array(
             'name' => 'Cures Of Chukey',
@@ -114,9 +113,9 @@ class StoreFilmApiRequestValidationTest extends TestCase
             'description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry"s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged',
             'release_date' => '2019-01-01',
             'ticket_price' => '24.10',
-            'country' => '',
+            'country_id' => '',
             'photo' =>  UploadedFile::fake()->create('invoice.png', 1024),
-            'genre_id' => 1,
+            'genre_ids' => 1,
         );
         $response = $this->post('api/film/store', $data);
         $response->assertStatus(400);
@@ -130,9 +129,9 @@ class StoreFilmApiRequestValidationTest extends TestCase
             'description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry"s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged',
             'release_date' => '2019-01-01',
             'ticket_price' => '24.10',
-            'country' => 'Pakistan',
+            'country_id' => 1,
             'photo' =>  '',
-            'genre_id' => 1,
+            'genre_ids' => 1,
         );
         $response = $this->post('api/film/store', $data);
         $response->assertStatus(400);
@@ -146,9 +145,9 @@ class StoreFilmApiRequestValidationTest extends TestCase
             'description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry"s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged',
             'release_date' => '2019-01-01',
             'ticket_price' => '24.10',
-            'country' => 'Pakistan',
+            'country_id' => 1,
             'photo' =>  'no file',
-            'genre_id' => 1,
+            'genre_ids' => 1,
         );
         $response = $this->post('api/film/store', $data);
         $response->assertStatus(400);
@@ -163,9 +162,9 @@ class StoreFilmApiRequestValidationTest extends TestCase
             'description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry"s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged',
             'release_date' => '2019-01-01',
             'ticket_price' => '24.10',
-            'country' => 'Pakistan',
+            'country_id' => 1,
             'photo' =>  UploadedFile::fake()->create('invoice.png', 1024),
-            'genre_id' => '',
+            'genre_ids' => '',
         );
         $response = $this->post('api/film/store', $data);
         $response->assertStatus(400);
@@ -175,21 +174,18 @@ class StoreFilmApiRequestValidationTest extends TestCase
     public function test_store_film_successfully()
     {
         $faker = $this->faker->text(200);
-        // Faker
         Film::factory();
-
         $data = array(
             'name' =>  $this->faker->title(),
             'film_slug' =>  $this->faker->slug(),
             'description' =>  $this->faker->text(),
             'release_date' => $this->faker->date(),
             'ticket_price' => 20.24,
-            'country' => $this->faker->country(),
+            'country_id' => 1,
             'photo' =>  UploadedFile::fake()->create('invoice.png', 1024),
-            'genre_id' => rand(1,4),
+            'genre_ids' => rand(1,4),
         );        
         $response = $this->post('api/film/store', $data);
-        // dd($response->getContent());
         $response->assertStatus(200);
     }
     

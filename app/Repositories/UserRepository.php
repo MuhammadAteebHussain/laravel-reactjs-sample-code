@@ -2,51 +2,63 @@
 
 namespace App\Repositories;
 
-use App\Components\CustomStatusCodes;
 use App\Contracts\UserRepositoryInterface;
-use App\Http\Services\Application\UserLoginApplicationService;
-use App\Http\Services\Application\UserRegisterApplicationService;
-use App\Http\Services\General\GeneralResponseService;
+use App\Models\User;
 
+use Illuminate\Support\Facades\Auth;
 
 class UserRepository implements UserRepositoryInterface
 {
-    protected $user_register_application_service;
-    protected $user_login_application_service;
-    protected $general_response_service;
+    protected User $user;
+    protected Auth $auth;
 
-
-    public function __construct(UserRegisterApplicationService $user_register_application_service, UserLoginApplicationService $user_login_application_service, GeneralResponseService $general_response_service)
+    /**
+     * __construct function
+     *
+     * @param User $user
+     * @param Auth $auth
+     * @package UserRepositoryInterface
+     */
+    public function __construct(User $user, Auth $auth)
     {
-        $this->user_register_application_service = $user_register_application_service;
-        $this->user_login_application_service = $user_login_application_service;
-        $this->general_response_service = $general_response_service;
+        $this->user = $user;
+        $this->auth = $auth;
+    }
+
+    /**
+     * registerUser function
+     *
+     * @param array $user
+     * @return object
+     */
+    public function registerUser(array $user): object
+    {
+        return $this->user::Create($user);
+    }
+
+    /**
+     * loginUser function
+     *
+     * @param array $user
+     * @return object
+     */
+    public function loginUser(array $user): object|null
+    {
+        $this->auth::attempt($user);
+        return $this->auth::user();
     }
 
 
-
-    public function login(array $validated_request)
+    /**
+     * userTokenGenerator function
+     *
+     * @param object $data
+     * @return array
+     */
+    public function userTokenGenerator(object  $data): array
     {
-        try {
-
-            $content = $this->user_login_application_service->execute($validated_request);
-
-            return $content;
-        } catch (\Exception $ex) {
-            throw $ex;
-        }
-    }
-
-
-    public function register(array $validated_request)
-    {
-
-        try {
-            $content = $this->user_register_application_service->execute($validated_request);
-
-            return $content;
-        } catch (\Exception $ex) {
-            throw $ex;
-        }
+        $result['token'] = $data->createToken('film')->accessToken;
+        $result['name'] = $data->name;
+        return $result;
     }
 }

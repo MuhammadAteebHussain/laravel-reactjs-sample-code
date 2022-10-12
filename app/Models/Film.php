@@ -9,7 +9,7 @@ class Film extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'film_slug', 'description', 'release_date', 'ticket_price', 'country', 'photo', 'status'];
+    protected $fillable = ['name', 'film_slug', 'description', 'release_date', 'ticket_price', 'country_id', 'photo', 'status'];
 
     public function FilmGenre()
     {
@@ -28,5 +28,10 @@ class Film extends Model
     public function Comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function Countries()
+    {
+        return $this->belongsTo(Country::class,'country_id');
     }
 }

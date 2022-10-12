@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Http\Services\Domain\Contracts;
+namespace App\Services\Domain\Contracts;
 
 
 interface DomainServiceInterface
 {
-
-    public function execute($request);
+    public function execute(object|array $request);
 }

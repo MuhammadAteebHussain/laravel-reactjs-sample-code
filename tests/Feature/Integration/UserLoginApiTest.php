@@ -3,29 +3,46 @@
 namespace Tests\Feature\Integration;
 
 use App\Models\User;
+use App\Services\General\UserService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class UserLoginApiTest extends TestCase
 {
-    
+    use WithFaker;
 
-    public function test_get_token()
+    /**
+     * setUp function
+     *
+     * @return void
+     */
+    public function setUp(): void
     {
-        $data = array(
-            'email' => User::orderBy('created_at', 'desc')->first()->email,
-            'password' => 'Ateeb@12345',
-        );
-        $response = $this->post('api/user/login', $data);
-        // dd($response->getContent());
+        parent::setUp();
+        $this->api = 'api/user/register';
+        $this->valid_name = 'Ateeb';
+        $this->user = $this->app->make(UserService::class);
+        $this->email = User::orderBy('created_at', 'desc')->first()->email;
+        $this->new_email = 'm.ateeb2@purevpn.com';
+        $this->invalid_email = 'wrong email';
+        $this->invalid_user_id = 999999;
+        $this->password = 'Ateeb@12345';
+        $this->confirm_password = 'Ateeb@12345';
+        $this->invalid_password = 'ateeb';
+        $this->valid_genre_id = 1;
+        $this->invalid_genre_id = 99999;
+        $this->valid_film_id = 1;
+        $this->invalid_film_id = 100000;
     }
+
+
 
     public function test_login_email_required()
     {
         $data = array(
             'email' => '',
-            'password' => 'Ateeb@123456'
+            'password' => $this->password
         );
         $response = $this->post('api/user/login', $data);
         $response->assertSee([
@@ -38,7 +55,7 @@ class UserLoginApiTest extends TestCase
     public function test_login_password_required()
     {
         $data = array(
-            'email' =>  User::orderBy('created_at', 'desc')->first()->email,
+            'email' =>  $this->email,
             'password' => '',
 
         );
@@ -54,8 +71,8 @@ class UserLoginApiTest extends TestCase
     public function test_login_invalid_email()
     {
         $data = array(
-            'email' =>  'test',
-            'password' => 'Ateeb@123456',
+            'email' =>  $this->invalid_email,
+            'password' => $this->password,
         );
         $response = $this->post('api/user/login', $data);
         $response->assertSee([
@@ -70,7 +87,7 @@ class UserLoginApiTest extends TestCase
     {
         $data = array(
             'email' => User::orderBy('created_at', 'desc')->first()->email,
-            'password' => 'ateeb',
+            'password' =>  $this->invalid_password
         );
         $response = $this->post('api/user/login', $data);
 
@@ -87,7 +104,7 @@ class UserLoginApiTest extends TestCase
     {
         $data = array(
             'email' => User::orderBy('created_at', 'desc')->first()->email,
-            'password' => 'Ateeb@12345',
+            'password' => $this->password
         );
         $response = $this->post('api/user/login', $data);
 

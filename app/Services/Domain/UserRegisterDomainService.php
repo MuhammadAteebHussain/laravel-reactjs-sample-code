@@ -1,27 +1,37 @@
 <?php
 
-namespace App\Http\Services\Domain;
+namespace App\Services\Domain;
 
-use App\Contracts\AbstractUsers;
-use App\Http\Services\Domain\Contracts\DomainServiceInterface;
+use App\Abstracts\AbstractUsers;
+use App\Contracts\UserRepositoryInterface;
+use App\Services\Domain\Contracts\DomainServiceInterface;
 
 class UserRegisterDomainService extends AbstractUsers implements DomainServiceInterface
 {
+    protected UserRepositoryInterface $repository;
 
-    public function __construct() {
-        
-    }
-    
-    
-    /* 
-        Domain Layers we are using for writing business logic
-    
-    */
-
-    public function execute($data)
+    /**
+     * __construct function
+     *
+     * @param UserRepositoryInterface $repository
+     */
+    public function __construct(UserRepositoryInterface $repository)
     {
-        $user=$this->registerUser($data);
-        $result=$this->userTokenGenerator($user);
+        $this->repository = $repository;
+    }
+
+    /**
+     * execute function
+     *
+     * @param object|array $request
+     * @return array
+     */
+    public function execute(object|array $request): array
+    {
+        $user = $this->repository->registerUser($request);
+        $token = $this->userTokenGenerator($user);
+        $result['user_id'] = $user->id;
+        $result['token'] = $token;
         return $result;
     }
 }

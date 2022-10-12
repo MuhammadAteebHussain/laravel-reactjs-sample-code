@@ -12,12 +12,10 @@ class StoreCommentRequest
 
     public static function ApiValidation($request)
     {
-        $validator = Validator::make($request->all(), [
-            'user_id'     => 'integer|required|exists:users,id|max:10',
-            'film_id'     => 'integer|required|exists:films,id|max:20',
+        return  Validator::make($request->all(), [
+            'user_id'     => 'integer|required|exists:users,id',
+            'film_id'     => 'integer|required|exists:films,id',
             'comment'     => 'required',
         ]);
-
-        return $validator;
     }
 }

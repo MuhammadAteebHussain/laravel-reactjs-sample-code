@@ -3,14 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Components\CustomStatusCodes;
+use App\Contracts\UserInterface;
 use App\Http\Requests\LoginUserRequest;
-use App\Http\Requests\StoreFilmRequest;
 use App\Http\Requests\StoreUserRequest;
-use App\Http\Services\General\GeneralResponseService;
+use App\Services\General\GeneralResponseService;
 use Illuminate\Http\Request;
-use App\Repositories\FilmRepository;
-use App\Repositories\UserRepository;
-use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -18,82 +15,58 @@ class UserController extends Controller
     public $user;
 
 
-
-
-
-    public function __construct(UserRepository $user)
+    /**
+     * __construct function
+     *
+     * @param UserInterface $user
+     * @package User
+     */
+    public function __construct(UserInterface $user)
     {
         $this->user = $user;
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
 
     /**
-     * Store a newly created resource in storage.
+     * store function
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return object
      */
-    public function customLogin(Request $request)
-    {
-        return view('auth.login');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(Request $request): object
     {
         try {
             $validate_request = StoreUserRequest::ApiValidation($request);
             if ($validate_request->fails()) {
-                $response = GeneralResponseService::generateResponse([], CustomStatusCodes::getValidationCode(), $validate_request->errors()->first(), CustomStatusCodes::getBadRequest());
+                $response = GeneralResponseService::ValidationResponse($validate_request->errors()->first());
             } else {
 
                 $response = $this->user->register($validate_request->validated());
-
-                return GeneralResponseService::successResponseCreated($response);
             }
-            return $response;
+            return GeneralResponseService::responseGenerator($response['body'], $response['code'], $response['message'], $response['http_code'], $response['status']);
         } catch (\Exception $ex) {
             return GeneralResponseService::generateResponse([], CustomStatusCodes::getValidationCode(), $ex->getMessage(), CustomStatusCodes::getBadRequest());
         }
     }
 
-        /**
-     * Store a newly created resource in storage.
+
+    /**
+     * login function
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return object
      */
-    public function login(Request $request)
+    public function login(Request $request): object
     {
         try {
             $validate_request = LoginUserRequest::ApiValidation($request);
             if ($validate_request->fails()) {
-                $response = GeneralResponseService::generateResponse([], CustomStatusCodes::getValidationCode(), $validate_request->errors()->first(), CustomStatusCodes::getBadRequest());
+                $response = GeneralResponseService::ValidationResponse($validate_request->errors()->first());
             } else {
-
                 $response = $this->user->login($validate_request->validated());
-
-                return GeneralResponseService::responseGenerator($response['body'],$response['code'],$response['message'],$response['http_code'],$response['status']);
             }
-            return $response;
+            return GeneralResponseService::responseGenerator($response['body'], $response['code'], $response['message'], $response['http_code'], $response['status']);
         } catch (\Exception $ex) {
             return GeneralResponseService::generateResponse([], CustomStatusCodes::getValidationCode(), $ex->getMessage(), CustomStatusCodes::getBadRequest());
         }
     }
-
-   
 }
