@@ -8,6 +8,9 @@ class CustomStatusCodes
 
     const SUCCESS = 'fm900';
     const LOGIN_SUCCESS = 'fm9001';
+    const REGISTER_SUCCESS = 'fm9002';
+    const FILM_SUCCESS = 'fm9002';
+    const COUNTRY_SUCCESS = 'fm9004';
     const FAILURE = 'fm1000';
     const LOGIN_FAILED = 'fm1001';
     const VALIDATION_CODE = 'fm1100';
@@ -19,6 +22,10 @@ class CustomStatusCodes
 
     const SUCCESS_GENERAL_MESSAGE = 'Successfully Get';
     const SUCCESS_CREATED= 'Created';
+    const GENERAL_ERROR_MESSAGE= 'Something Went Wrong';
+
+    const COMMENT_SUCCESS = 'fm9002';
+
 
     const HTTP_SUCCESS_CODE = 200;
     const HTTP_INSERTED_SUCCESS_CODE = 201;
