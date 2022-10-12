@@ -7,8 +7,15 @@ use App\Contracts\GeneralResponseServiceInterface;
 
 class GeneralResponseService implements GeneralResponseServiceInterface
 {
+    protected $debug;
 
-    
+
+    public function getEnv()
+    {
+        return $this->debug = env('APP_DEBUG');
+    }
+
+
     public static function generateResponse($body, $code, $message, $http_code): object
     {
         $header['code'] = $code;
@@ -39,7 +46,7 @@ class GeneralResponseService implements GeneralResponseServiceInterface
         return self::responseGenerator($body, $code, $message, $http_code, true);
     }
 
-    public static function responseGenerator($body, $code, $message, $http_code, $status = true) : object
+    public static function responseGenerator($body, $code, $message, $http_code, $status = true): object
     {
         $header['code'] = $code;
         $header['message'] = $message;
@@ -54,7 +61,12 @@ class GeneralResponseService implements GeneralResponseServiceInterface
     public static function createExceptionResponse($ex): object
     {
 
-        return self::responseGenerator([], CustomStatusCodes::GENERAL_VALIDATION_CODE, self::GenerateMessageByException($ex), CustomStatusCodes::HTTP_INTERNAL_SERVER_ERROR_CODE, false);
+        if (self::getEnv() == true) {
+            $message = self::GenerateMessageByException($ex);
+        } else {
+            $message = CustomStatusCodes::GENERAL_ERROR_MESSAGE;
+        }
+        return self::responseGenerator([], CustomStatusCodes::GENERAL_VALIDATION_CODE, $message, CustomStatusCodes::HTTP_INTERNAL_SERVER_ERROR_CODE, false);
     }
 
     public static function GenerateMessageByException(object $ex): string
