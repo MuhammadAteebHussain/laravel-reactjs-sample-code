@@ -22,7 +22,7 @@ export default function PostComments(props) {
     const storeComment = () => {
 
         axios({
-            url: "http://127.0.0.1:9084/api/comment/store",
+            url: process.env.REACT_APP_COMMENT_STORE_API,
             method: "post",
             params: commentState,
             headers: {

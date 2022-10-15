@@ -4,14 +4,17 @@ import { useNavigate } from 'react-router-dom';
 import AuthContext from '../../context/user/AuthContext';
 
 
+
 export default function FilmRegisterForm() {
     const film = useContext(AuthContext)
     const navigate = useNavigate();
 
     useEffect(() => {
 
+
+
         axios({
-            url: "http://127.0.0.1:9084/api/country/list",
+            url: process.env.REACT_APP_COUNTRY_LIST_API,
             method: "GET",
             headers: {
                 Authorization: '',
@@ -27,7 +30,7 @@ export default function FilmRegisterForm() {
 
 
         axios({
-            url: "http://127.0.0.1:9084/api/genre/list",
+            url: process.env.REACT_APP_GENRE_API,
             method: "GET",
             headers: {
                 Authorization: '',
@@ -95,7 +98,7 @@ export default function FilmRegisterForm() {
         const param = params;
         console.log(param);
         axios({
-            url: "http://127.0.0.1:9084/api/film/store",
+            url: process.env.REACT_APP_FILM_STROE_API,
             method: "POST",
             data: formData,
             headers: {
@@ -156,7 +159,7 @@ export default function FilmRegisterForm() {
                             <label className="form-label" htmlFor="release_date">Release Date</label>
                         </div>
                     </div>
-                   
+
                 </div>
 
                 <div className="row mb-4">
@@ -181,7 +184,7 @@ export default function FilmRegisterForm() {
                     <div className="col-md-4">
                         <div className="form-outline">
                             {film.genreListState.body.map((g) => {
-                          return   <div className="form-check">
+                                return <div className="form-check">
                                     <input className="form-check-input" type="checkbox" value={g.id} onChange={onChangeGenreHandler} name="genre_check" />
                                     <label className="form-check-label" for="flexCheckDefault">
                                         {g.genre}

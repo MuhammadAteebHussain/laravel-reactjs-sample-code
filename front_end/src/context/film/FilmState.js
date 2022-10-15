@@ -397,12 +397,14 @@ const FilmState = (props) => {
 
 
     const getAllFilms = async () => {
-        let response = await axios.get("http://127.0.0.1:9084/api/film/list");
+        let response = await axios.get(process.env.REACT_APP_FILM_LIST_API);
         setfilmsState(response.data);
     };
 
+
+
     const getFilmBySlug = async (slug) => {
-        let url = "http://127.0.0.1:9084/api/film/" + slug;
+    let url = process.env.REACT_APP_FILM_SLUG_API + slug;
         let response = await axios.get(url);
         setfilmDetailState(response.data.body)
         setfilmGenreState(response.data.body.film_genre)

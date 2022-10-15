@@ -16,10 +16,11 @@ export default function Register() {
 
     const registerHandler = (e) => {
 
+       
         e.preventDefault()
         const param = credentials
         axios({
-            url: "http://127.0.0.1:9084/api/user/register",
+            url:  process.env.REACT_APP_REGISTER_API,
             method: "post",
             params: {
                 name: credentials.name,
