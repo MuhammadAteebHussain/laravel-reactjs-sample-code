@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import axios from "axios"
 import AuthContext from '../../context/user/AuthContext'
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -11,10 +11,10 @@ export default function Login() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if(localStorage.getItem('user_id')) 
-         navigate('/');
+        if (localStorage.getItem('user_id'))
+            navigate('/');
     }, [])
-    
+
 
 
 
@@ -27,27 +27,27 @@ export default function Login() {
     }
 
     const loginHandler = () => {
-        
-        const param = credentials
-        console.log(param);
+
+
+
 
         axios({
-            url: "http://127.0.0.1:9084/api/user/login",
+            url: process.env.REACT_APP_LOGIN_API,
             method: "post",
             params: {
                 email: credentials.email,
                 password: credentials.password
             },
             headers: {
-              Authorization:'',
+                Authorization: '',
                 "Accept": "application/json",
                 "Content-Type": "application/x-www-form-urlencoded"
             },
-        
+
         }).then(function (response) {
             console.log(response.data.body.token);
-            localStorage.setItem('user_id',response.data.body.id)
-            localStorage.setItem('token',response.data.body.token);
+            localStorage.setItem('user_id', response.data.body.id)
+            localStorage.setItem('token', response.data.body.token);
             user.setloginState(true);
             // user.setloginState(localStorage.setItem('token',response.data.body.token));
             navigate('/films');
