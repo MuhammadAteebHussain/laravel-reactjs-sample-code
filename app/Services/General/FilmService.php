@@ -79,11 +79,11 @@ class FilmService implements FilmInterface
      * @param string $slug
      * @return array
      */
-    public function getFilmsBySlugName(string $slug): array
+    public function getFilmsBySlugName(array|object $validated_requet): array
     {
 
         try {
-            return  $this->slug_film_application_service->execute($slug);
+            return  $this->slug_film_application_service->execute($validated_requet);
         } catch (\Exception $ex) {
             throw $ex;
         }
@@ -95,7 +95,7 @@ class FilmService implements FilmInterface
      * @param object $validated_requet
      * @return array
      */
-    public function storeFilm(object $validated_requet): array
+    public function storeFilm(object|array $validated_requet): array
     {
         try {
             return $this->store_film_service->execute($validated_requet);

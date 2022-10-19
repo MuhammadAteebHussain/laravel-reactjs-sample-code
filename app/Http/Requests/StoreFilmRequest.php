@@ -2,17 +2,24 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
 
 
 class StoreFilmRequest
 {
 
-    public static function ApiValidation($request)
+    protected Request $request;
+
+    public function __construct(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $this->request = $request;
+    }
+
+
+    public function apiValidation()
+    {
+        $validator = Validator::make($this->request->all(), [
             'name'     => 'required|max:50',
             'film_slug'     => 'required|unique:films,film_slug|max:100',
             'description'     => 'required',

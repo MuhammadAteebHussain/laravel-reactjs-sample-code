@@ -4,47 +4,47 @@ namespace App\Http\Controllers;
 
 use App\Components\CustomStatusCodes;
 use App\Contracts\CommentInterface;
+use App\Contracts\GeneralResponseServiceInterface;
 use App\Http\Requests\StoreCommentRequest;
-use App\Services\General\GeneralResponseService;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
 
-    public $service;
+    protected CommentInterface $service;
+    protected GeneralResponseServiceInterface $response;
+
     /**
      * __construct function
      *
      * @param CommentInterface $service
      * @package CommentService
      */
-    public function __construct(CommentInterface $service)
+    public function __construct(CommentInterface $service, GeneralResponseServiceInterface $response)
     {
         $this->service = $service;
+        $this->response = $response;
     }
+    
     /**
      * store function
      *
-     * @param Request $request
+     * @param StoreCommentRequest $request
      * @return object
      */
-    public function store(Request $request): object
+    public function store(StoreCommentRequest $request): object
     {
         try {
-            $validate_request = StoreCommentRequest::ApiValidation($request);
+            $validate_request = $request->apiValidation();
             if ($validate_request->fails()) {
-                $response['code'] = CustomStatusCodes::GENERAL_VALIDATION_CODE;
-                $response['message'] = $validate_request->errors()->first();
-                $response['body'] = [];
-                $response['http_code'] = CustomStatusCodes::HTTP_BAD_REQUEST;
-                $response['status'] = CustomStatusCodes::RESPONSE_SUCCESS_FALSE;
+                $response = $this->response->validationResponse($validate_request->errors()->first());
             } else {
-                $response = $this->service->addCommentsToFilm($request);
+                $response = $this->service->addCommentsToFilm($validate_request->validated());
             }
-            return GeneralResponseService::responseGenerator($response['body'], $response['code'], $response['message'], $response['http_code'], $response['status']);
+            return $this->response->responseGenerator($response['body'], $response['code'], $response['message'], $response['http_code'], $response['status']);
         } catch (\Exception $ex) {
 
-            return  GeneralResponseService::responseGenerator([], CustomStatusCodes::GENERAL_VALIDATION_CODE, $ex->getFile() . '-' . $ex->getMessage() . '-' . $ex->getLine(),  CustomStatusCodes::HTTP_BAD_REQUEST, CustomStatusCodes::RESPONSE_SUCCESS_FALSE);
+            return  $this->response->responseGenerator([], CustomStatusCodes::GENERAL_VALIDATION_CODE, $ex->getFile() . '-' . $ex->getMessage() . '-' . $ex->getLine(),  CustomStatusCodes::HTTP_BAD_REQUEST, CustomStatusCodes::RESPONSE_SUCCESS_FALSE);
         }
     }
 
@@ -58,11 +58,10 @@ class CommentController extends Controller
     {
         try {
             $response = $this->service->getCommentsByFilmId($request);
-
-            return GeneralResponseService::responseGenerator($response['body'], $response['code'], $response['message'], $response['http_code'], $response['status']);
+            return $this->response->responseGenerator($response['body'], $response['code'], $response['message'], $response['http_code'], $response['status']);
         } catch (\Exception $ex) {
 
-            return  GeneralResponseService::responseGenerator([], CustomStatusCodes::GENERAL_VALIDATION_CODE, $ex->getFile() . '-' . $ex->getMessage() . '-' . $ex->getLine(),  CustomStatusCodes::HTTP_BAD_REQUEST, CustomStatusCodes::RESPONSE_SUCCESS_FALSE);
+            return  $this->response->responseGenerator([], CustomStatusCodes::GENERAL_VALIDATION_CODE, $ex->getFile() . '-' . $ex->getMessage() . '-' . $ex->getLine(),  CustomStatusCodes::HTTP_BAD_REQUEST, CustomStatusCodes::RESPONSE_SUCCESS_FALSE);
         }
     }
 }

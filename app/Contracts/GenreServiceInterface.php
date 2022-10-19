@@ -6,6 +6,6 @@ namespace App\Contracts;
 interface GenreServiceInterface
 {
     public function listGenres();
-    public function assignGeneriesToFilm(object $requet);
+    public function assignGeneriesToFilm(object|array $requet);
     
 }

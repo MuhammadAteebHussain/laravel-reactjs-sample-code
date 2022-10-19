@@ -45,7 +45,7 @@ class GenreService implements GenreServiceInterface
      * @param object $validated_requet
      * @return array
      */
-    public function assignGeneriesToFilm(object $validated_requet): array
+    public function assignGeneriesToFilm(object|array $validated_requet): array
     {
         return $this->assign_genre_film_application_service->execute($validated_requet);
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\GeneralResponseServiceInterface;
 use App\Contracts\GenreServiceInterface;
 use App\Exceptions\GeneralException;
 use App\Http\Requests\StoreGenreRequest;
@@ -12,54 +13,58 @@ use Illuminate\Http\Request;
 class GenreController extends Controller
 {
 
-    public $service;
+    protected GenreServiceInterface $service;
+    protected GeneralResponseServiceInterface $response;
+
 
     /**
      * __construct function
      *
      * @param GenreServiceInterface $service
+     * @param GeneralResponseServiceInterface $response
      */
-    public function __construct(GenreServiceInterface $service)
+    public function __construct(GenreServiceInterface $service, GeneralResponseServiceInterface $response)
     {
         $this->service = $service;
+        $this->response = $response;
     }
 
 
 
 
     /**
-     * Display a listing of the resource.
+     * list function
      *
-     * @return \Illuminate\Http\Response
+     * @return object
      */
     public function list(): object
     {
         try {
             $response = $this->service->listGenres();
-            return GeneralResponseService::responseGenerator($response['body'], $response['code'], $response['message'], $response['http_code'], $response['status']);
+            return $this->response->responseGenerator($response['body'], $response['code'], $response['message'], $response['http_code'], $response['status']);
         } catch (\Exception $ex) {
-            return GeneralResponseService::createExceptionResponse($ex);
+            return $this->response->createExceptionResponse($ex);
         }
     }
 
     /**
-     * Undocumented function
+     * store function
      *
-     * @param Request $request
-     * @return void
+     * @param StoreGenreRequest $request
+     * @return object
      */
-    public function store(Request $request): object
+    public function store(StoreGenreRequest $request): object
     {
         try {
-            $validate_request = StoreGenreRequest::ApiValidation($request);
+            $validate_request = $request->apiValidation();
             if ($validate_request->fails()) {
-                $response = GeneralResponseService::ValidationResponse($validate_request->errors()->first());
+                $response = $this->response->validationResponse($validate_request->errors()->first());
             } else {
-                $response = $this->service->assignGeneriesToFilm($request);
+                $response = $this->service->assignGeneriesToFilm($validate_request->validated());
             }
-            return GeneralResponseService::responseGenerator($response['body'], $response['code'], $response['message'], $response['http_code'], $response['status']);
+            return $this->response->responseGenerator($response['body'], $response['code'], $response['message'], $response['http_code'], $response['status']);
         } catch (\Exception $ex) {
-            return  GeneralResponseService::createExceptionResponse($ex);
+            return  $this->response->createExceptionResponse($ex);
         }
     }
 }
