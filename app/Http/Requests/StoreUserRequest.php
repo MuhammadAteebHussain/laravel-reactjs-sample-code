@@ -2,22 +2,17 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Request;
+use App\Abstracts\AbstractRequest;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
 
-
-class StoreUserRequest
+class StoreUserRequest extends AbstractRequest
 {
-    protected Request $request;
-
-    public function __construct(Request $request)
-    {
-        $this->request = $request;
-    }
-
-    public function apiValidation()
+    /**
+     * apiValidation function
+     *
+     * @return object
+     */
+    public function apiValidation(): object
     {
         return Validator::make($this->request->all(), [
             'name'     => 'required|max:50|regex:/^[a-zA-Z]+$/u',

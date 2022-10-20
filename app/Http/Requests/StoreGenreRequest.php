@@ -2,22 +2,20 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Abstracts\AbstractRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
 
 
-class StoreGenreRequest
+class StoreGenreRequest extends AbstractRequest
 {
 
-    protected Request $request;
-
-    public function __construct(Request $request) {
-        $this->request = $request;
-    }
-
-    public function apiValidation()
+    /**
+     * apiValidation function
+     *
+     * @return object
+     */
+    public function apiValidation(): object
     {
         return  Validator::make($this->request->all(), [
             'genre_id'     => 'required|exists:genres,id',

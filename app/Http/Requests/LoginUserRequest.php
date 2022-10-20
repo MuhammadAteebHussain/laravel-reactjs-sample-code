@@ -2,22 +2,18 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Http\Request;
+use App\Abstracts\AbstractRequest;
 use Illuminate\Support\Facades\Validator;
 
 
-class LoginUserRequest
+class LoginUserRequest extends AbstractRequest
 {
-
-
-    protected Request $request;
-
-    public function __construct(Request $request)
-    {
-        $this->request = $request;
-    }
-
-    public function apiValidation()
+    /**
+     * apiValidation function
+     *
+     * @return object
+     */
+    public function apiValidation(): object
     {
         return Validator::make($this->request->all(), [
             'email'     => 'required|email|max:50',
