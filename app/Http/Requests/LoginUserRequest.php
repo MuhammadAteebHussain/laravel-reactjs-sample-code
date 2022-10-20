@@ -2,17 +2,20 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Abstracts\AbstractRequest;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
 
 
-class LoginUserRequest
+class LoginUserRequest extends AbstractRequest
 {
-
-    public static function ApiValidation($request)
+    /**
+     * apiValidation function
+     *
+     * @return object
+     */
+    public function apiValidation(): object
     {
-        return Validator::make($request->all(), [
+        return Validator::make($this->request->all(), [
             'email'     => 'required|email|max:50',
             'password'     => 'required|string|regex:/[a-z]/|regex:/[A-Z]/|regex:/[0-9]/|regex:/[@$!%*#?&]/|min:8',
         ]);

@@ -2,24 +2,23 @@
 
 namespace App\Http\Requests;
 
+use App\Abstracts\AbstractRequest;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Http\FormRequest;
 
-class GetFilmRequestBySlug extends FormRequest
+class GetFilmRequestBySlug extends AbstractRequest
 {
 
-
     /**
-     * Get the validation rules that apply to the request.
+     * apiValidation function
      *
-     * @return array
+     * @return object
      */
-    public static function ApiValidation($request)
+    public function apiValidation(): object
     {
-        $validator = Validator::make($request, [
+        $data['film_slug'] = $this->request->slug;
+        $validator = Validator::make($data, [
             'film_slug'     => 'required|exists:films,film_slug|max:100',
         ]);
-
         return $validator;
     }
 }

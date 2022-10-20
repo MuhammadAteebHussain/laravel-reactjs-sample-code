@@ -58,10 +58,10 @@ class GeneralResponseService implements GeneralResponseServiceInterface
         return response($data, $http_code);
     }
 
-    public static function createExceptionResponse($ex): object
+    public  function createExceptionResponse($ex): object
     {
 
-        if (self::getEnv() == true) {
+        if ($this->getEnv() == true) {
             $message = self::GenerateMessageByException($ex);
         } else {
             $message = CustomStatusCodes::GENERAL_ERROR_MESSAGE;
@@ -74,7 +74,7 @@ class GeneralResponseService implements GeneralResponseServiceInterface
         return $ex->getMessage() . '-' . $ex->getFile() . '-' . $ex->getLine();
     }
 
-    public static function ValidationResponse($message): array
+    public static function validationResponse($message): array
     {
         $response['code'] = CustomStatusCodes::GENERAL_VALIDATION_CODE;
         $response['message'] = $message;

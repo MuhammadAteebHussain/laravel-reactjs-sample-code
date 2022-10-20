@@ -25,13 +25,13 @@ class StoreFilmApplicationService implements ApplicationServiceInterface
     }
 
 
-    public function execute($request) : array
+    public function execute($request): array
     {
 
         try {
-            $data = $request->all();
+            $data = $request;
             $destination_path = env('DESTINATION_PATH_FOR_IMAGES');
-            $photo = $request->file('photo');
+            $photo = $data['photo'];
             $image_name = rand() . $photo->getClientOriginalName();
             $data = array(
                 'name' =>  $data['name'],
@@ -40,13 +40,13 @@ class StoreFilmApplicationService implements ApplicationServiceInterface
                 'release_date' => $data['release_date'],
                 'ticket_price' => $data['ticket_price'],
                 'country_id' => $data['country_id'],
-                'photo_object' => $request->file('photo'),
+                'photo_object' => $data['photo'],
                 'photo' => $image_name,
                 'destination_path' => $destination_path,
             );
             $content = $this->store_film_service_service->execute($data);
             $film_genre_data['film_id'] = $content['id'];
-            $film_genre_data['genre_ids'] = $request->genre_ids;
+            $film_genre_data['genre_ids'] = $request['genre_ids'];
             $this->store_film_genre_service->execute($film_genre_data);
 
             if ($content !== false) {
@@ -67,6 +67,4 @@ class StoreFilmApplicationService implements ApplicationServiceInterface
             return GeneralResponseService::GenerateMessageByException($ex);
         }
     }
-
-    
 }

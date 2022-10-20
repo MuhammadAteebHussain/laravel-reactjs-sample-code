@@ -36,7 +36,7 @@ class GetSlugFilmsApplicationService implements ApplicationServiceInterface
      */
     public function execute($request) : array
     {
-        $slug = $request;
+        $slug = $request['film_slug'];
         $film = $this->repository->getBySlug($slug);
         $data = $this->singlefilmResponseGenerator($film);
         $result['code'] = CustomStatusCodes::FILM_SUCCESS;

@@ -2,17 +2,21 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Abstracts\AbstractRequest;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
 
 
-class StoreCommentRequest
+class StoreCommentRequest extends AbstractRequest
 {
 
-    public static function ApiValidation($request)
+    /**
+     * apiValidation function
+     *
+     * @return object
+     */
+    public function apiValidation(): object
     {
-        return  Validator::make($request->all(), [
+        return  Validator::make($this->request->all(), [
             'user_id'     => 'integer|required|exists:users,id',
             'film_id'     => 'integer|required|exists:films,id',
             'comment'     => 'required',

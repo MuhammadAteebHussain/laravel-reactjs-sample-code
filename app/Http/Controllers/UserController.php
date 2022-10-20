@@ -3,48 +3,51 @@
 namespace App\Http\Controllers;
 
 use App\Components\CustomStatusCodes;
+use App\Contracts\GeneralResponseServiceInterface;
 use App\Contracts\UserInterface;
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\StoreUserRequest;
-use App\Services\General\GeneralResponseService;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
 
-    public $user;
+    protected UserInterface $user;
+    protected GeneralResponseServiceInterface $response;
 
 
     /**
      * __construct function
      *
      * @param UserInterface $user
-     * @package User
+     * @param GeneralResponseServiceInterface $response
      */
-    public function __construct(UserInterface $user)
+    public function __construct(UserInterface $user, GeneralResponseServiceInterface $response)
     {
         $this->user = $user;
+        $this->response = $response;
     }
 
     /**
      * store function
      *
-     * @param Request $request
+     * @param StoreUserRequest $request
      * @return object
      */
-    public function store(Request $request): object
+    public function store(StoreUserRequest $request): object
     {
         try {
-            $validate_request = StoreUserRequest::ApiValidation($request);
+
+            $validate_request = $request->apiValidation();
             if ($validate_request->fails()) {
-                $response = GeneralResponseService::ValidationResponse($validate_request->errors()->first());
+                $response = $this->response->validationResponse($validate_request->errors()->first());
             } else {
 
                 $response = $this->user->register($validate_request->validated());
             }
-            return GeneralResponseService::responseGenerator($response['body'], $response['code'], $response['message'], $response['http_code'], $response['status']);
+            return $this->response->responseGenerator($response['body'], $response['code'], $response['message'], $response['http_code'], $response['status']);
         } catch (\Exception $ex) {
-            return GeneralResponseService::generateResponse([], CustomStatusCodes::getValidationCode(), $ex->getMessage(), CustomStatusCodes::getBadRequest());
+            return $this->response->generateResponse([], CustomStatusCodes::getValidationCode(), $ex->getMessage(), CustomStatusCodes::getBadRequest());
         }
     }
 
@@ -52,21 +55,21 @@ class UserController extends Controller
     /**
      * login function
      *
-     * @param Request $request
+     * @param LoginUserRequest $request
      * @return object
      */
-    public function login(Request $request): object
+    public function login(LoginUserRequest $request): object
     {
         try {
-            $validate_request = LoginUserRequest::ApiValidation($request);
+            $validate_request = $request->apiValidation();
             if ($validate_request->fails()) {
-                $response = GeneralResponseService::ValidationResponse($validate_request->errors()->first());
+                $response = $this->response->validationResponse($validate_request->errors()->first());
             } else {
                 $response = $this->user->login($validate_request->validated());
             }
-            return GeneralResponseService::responseGenerator($response['body'], $response['code'], $response['message'], $response['http_code'], $response['status']);
+            return $this->response->responseGenerator($response['body'], $response['code'], $response['message'], $response['http_code'], $response['status']);
         } catch (\Exception $ex) {
-            return GeneralResponseService::generateResponse([], CustomStatusCodes::getValidationCode(), $ex->getMessage(), CustomStatusCodes::getBadRequest());
+            return $this->response->generateResponse([], CustomStatusCodes::getValidationCode(), $ex->getMessage(), CustomStatusCodes::getBadRequest());
         }
     }
 }
