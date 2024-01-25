@@ -8,7 +8,7 @@ Note: Make sure docker and docker-compose must be install in your OS version mus
 Copy .env.example (currently you will get sample .env) to .env and update credentials
 
 ```bash
-git clone https://github.com/MuhammadAteebHussain/laravel-with-domain-driven-development.git
+git clone https://github.com/MuhammadAteebHussain/laravel-reactjs-sample-code.git
 ```
 * stop any previous development environment.
 ```bash
